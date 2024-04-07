@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,11 +37,6 @@ const router = createRouter({
           path: '/collection',
           name: 'collection',
           component:()=>import("../components/user/collection/collection.vue"),
-        },
-        {
-          path: '/publish',
-          name: 'publish',
-          component:()=>import("@/components/user/publish/publish.vue"),
         },
       ]
     },
