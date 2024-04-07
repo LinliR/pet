@@ -1,10 +1,8 @@
 <template>
+  <carousel></carousel>
 
-  <el-carousel :interval="4000" type="card" height="200px">
-    <el-carousel-item v-for="item in 3" :key="item">
-      <h3 text="2xl" justify="center">{{ item }}</h3>
-    </el-carousel-item>
-  </el-carousel>
+
+
 
   <div>
     <h1>热门领养</h1>
@@ -32,15 +30,39 @@
     <h1>同城迷失的小精灵</h1>
     <div class="home-content">
       <div class="pet-content" v-for="item in 8">
-        {{item}}
+        {{ item }}
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import carousel from './carousel.vue';
+
 export default {
-  name:'home',
+  components:{
+    carousel
+  },
+  // eslint-disable-next-line vue/multi-word-component-names
+  name: 'home',
+  data: function () {
+    return {
+      carousel: [
+        {
+          "index": "adopterRule",
+          "name": "领养须知"
+        },
+        {
+          "index": "findRule",
+          "name": "寻宠须知"
+        },
+        {
+          "index": "downloadFile",
+          "name": "领养协议"
+        }
+      ]
+    }
+  }
 }
 </script>
 
@@ -61,28 +83,32 @@ export default {
   background-color: #d3dce6;
 }
 
-.home-content{
+
+.home-content {
   margin-right: 100px;
   margin-left: 10%;
   width: 1600px;
   height: 900px;
 }
-.pet-content{
+
+.pet-content {
   float: left;
   height: 400px;
   width: 320px;
   margin-left: 60px;
   margin-top: 10px;
-  background: rgba(0,0,0,0.1);
+  background: rgba(0, 0, 0, 0.1);
   border-radius: 1%;
 }
-.pet-image{
+
+.pet-image {
   height: 300px;
   width: 320px;
-  background: rgba(0,0,0,0.1);
-  box-shadow: 0 4px 0 rgba(0,0,0,0.1);
+  background: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
 }
-.pet-info{
+
+.pet-info {
   height: 100px;
   width: 320px;
 }
