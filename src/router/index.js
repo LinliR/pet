@@ -38,6 +38,23 @@ const router = createRouter({
           name: 'collection',
           component:()=>import("../components/user/collection/collection.vue"),
         },
+        {
+          path: '/publish',
+          name: 'publish',
+          component:()=>import("../components/user/publish/publish.vue"),
+          children:[
+            {
+              path: '/adoptForm',
+              name: 'adoptForm',
+              component:()=>import("../components/user/publish/formFile/adoptForm.vue"),
+            },
+            {
+              path: '/findFrom',
+              name: 'findFrom',
+              component:()=>import("../components/user/publish/formFile/findFrom.vue"),
+            },
+          ]
+        },
       ]
     },
     {
