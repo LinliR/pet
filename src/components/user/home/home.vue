@@ -2,68 +2,162 @@
   <carousel></carousel>
 
 
-
-
-  <div>
-    <h1>热门领养</h1>
     <div class="home-content">
-      <div class="pet-content" v-for="item in 8">
-        <div class="pet-image">
-          image
-        </div>
-        <div class="pet-info">
-          <div>
-            name
+      <h1>热门领养</h1>
+      <el-card class="pet-content" v-for="adoptData in adoptList" :key="adoptData.id">
+        <template #header>
+          {{adoptData.name}}
+          <div style="display: inline-block;float: right">
+            <div class="tag"  v-for="degree in adoptData.degrees" :key="degree.index">
+              <el-tag type="danger" v-if="degree.index === 1">{{ degree.name }}</el-tag>
+              <el-tag type="danger" v-if="degree.index === 2">{{ degree.name }}</el-tag>
+              <el-tag type="primary" v-if="degree.index === 3">{{ degree.name }}</el-tag>
+            </div>
           </div>
-          <div>
-            <el-tag type="danger">已绝育</el-tag>
-            <el-tag type="danger">已免疫</el-tag>
-            <el-tag type="danger">已驱虫</el-tag>
-          </div>
-          <div>address</div>
-        </div>
-      </div>
-    </div>
-  </div>
+        </template>
+        <img :src="adoptData.imgSrc" height="200px" width="320px"/>
+        <p style="margin-top: 6px;float: right">{{ adoptData.address }}</p>
+      </el-card>
 
-  <div>
-    <h1>同城迷失的小精灵</h1>
-    <div class="home-content">
-      <div class="pet-content" v-for="item in 8">
-        {{ item }}
-      </div>
+
+      <h1 style="margin-top: 30px">同城迷失的小精灵</h1>
+      <el-card class="pet-content" v-for="findData in findList" :key="findData.id">
+        <template #header>
+          {{findData.name}}
+          <div style="display: inline-block;float: right">
+            <div class="tag"  v-for="degree in findData.degrees" :key="degree.index">
+              <el-tag type="danger" v-if="degree.index === 1">{{ degree.name }}</el-tag>
+              <el-tag type="danger" v-if="degree.index === 2">{{ degree.name }}</el-tag>
+              <el-tag type="primary" v-if="degree.index === 3">{{ degree.name }}</el-tag>
+            </div>
+          </div>
+        </template>
+        <img :src="findData.imgSrc" height="200px" width="320px"/>
+        <p style="margin-top: 6px;float: right">{{ findData.address }}</p>
+      </el-card>
     </div>
-  </div>
 </template>
 
-<script>
+<script setup>
+import {ref} from  'vue';
 import carousel from './carousel.vue';
 
-export default {
-  components:{
-    carousel
+const adoptList = ref([
+  {
+    id : '1',
+    name : "旺旺",
+    degrees : [
+      {
+        index : 1,
+        name : "已检疫"
+      },
+      {
+        index : 2,
+        name : "已绝育"
+      },
+      {
+        index : 3,
+        name : "已免疫"
+      },
+    ],
+    imgSrc : "/src/assert/images/1.jpg",
+    address : "甘肃省 兰州市 城关区"
   },
-  // eslint-disable-next-line vue/multi-word-component-names
-  name: 'home',
-  data: function () {
-    return {
-      carousel: [
-        {
-          "index": "adopterRule",
-          "name": "领养须知"
-        },
-        {
-          "index": "findRule",
-          "name": "寻宠须知"
-        },
-        {
-          "index": "downloadFile",
-          "name": "领养协议"
-        }
-      ]
-    }
+  {
+    id : '2',
+    name : "支竹",
+    degrees : [
+      {
+        index : 2,
+        name : "已绝育"
+      },
+      {
+        index : 3,
+        name : "已免疫"
+      },
+    ],
+    imgSrc : "/src/assert/images/2.jpg",
+    address : "北京市 朝阳"
+  },
+  {
+    id : '3',
+    name : "懒虫",
+    degrees : [
+    ],
+    imgSrc : "/src/assert/images/3.jpg",
+    address : "广东省 深圳市 南山区"
+  },
+  {
+    id : '4',
+    name : "泰泰",
+    degrees : [
+      {
+        index : 3,
+        name : "已免疫"
+      },
+    ],
+    imgSrc : "/src/assert/images/4.jpg",
+    address : "上海市 浦东区<"
   }
-}
+]);
+const findList = ref([
+  {
+    id : '1',
+    name : "旺旺",
+    degrees : [
+      {
+        index : 1,
+        name : "已检疫"
+      },
+      {
+        index : 2,
+        name : "已绝育"
+      },
+      {
+        index : 3,
+        name : "已免疫"
+      },
+    ],
+    imgSrc : "/src/assert/images/5.jpeg",
+    address : "甘肃省 兰州市 城关区"
+  },
+  {
+    id : '2',
+    name : "支竹",
+    degrees : [
+      {
+        index : 2,
+        name : "已绝育"
+      },
+      {
+        index : 3,
+        name : "已免疫"
+      },
+    ],
+    imgSrc : "/src/assert/images/6.jpg",
+    address : "北京市 朝阳"
+  },
+  {
+    id : '3',
+    name : "懒虫",
+    degrees : [
+    ],
+    imgSrc : "/src/assert/images/7.jpeg",
+    address : "广东省 深圳市 南山区"
+  },
+  {
+    id : '4',
+    name : "泰泰",
+    degrees : [
+      {
+        index : 3,
+        name : "已免疫"
+      },
+    ],
+    imgSrc : "/src/assert/images/8.jpeg",
+    address : "上海市 浦东区<"
+  }
+]);
 </script>
 
 <style scoped>
@@ -74,16 +168,6 @@ export default {
   margin: 0;
   text-align: center;
 }
-
-.el-carousel__item:nth-child(2n) {
-  background-color: #99a9bf;
-}
-
-.el-carousel__item:nth-child(2n + 1) {
-  background-color: #d3dce6;
-}
-
-
 .home-content {
   margin-right: 100px;
   margin-left: 10%;
@@ -92,24 +176,15 @@ export default {
 }
 
 .pet-content {
-  float: left;
-  height: 400px;
+  display: inline-block;
+  height: 320px;
   width: 320px;
   margin-left: 60px;
   margin-top: 10px;
-  background: rgba(0, 0, 0, 0.1);
-  border-radius: 1%;
+  cursor: pointer;
 }
-
-.pet-image {
-  height: 300px;
-  width: 320px;
-  background: rgba(0, 0, 0, 0.1);
-  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
-}
-
-.pet-info {
-  height: 100px;
-  width: 320px;
+.tag{
+  margin-left: 5px;
+  float: left;
 }
 </style>

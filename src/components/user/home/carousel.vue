@@ -16,55 +16,42 @@
     </el-carousel-item>
   </el-carousel>
 
-
   <el-dialog v-model="adopterFlag" width="1000px">
     <adopterRule></adopterRule>
   </el-dialog>
-  <el-dialog v-model="findFlag"  width="1000px">
+  <el-dialog v-model="findFlag" width="1000px">
     <findRule></findRule>
   </el-dialog>
-  <el-dialog v-model="downFlag"  width="1000px">
+  <el-dialog v-model="downFlag" width="1000px">
     <downloadFile></downloadFile>
   </el-dialog>
-
 </template>
 
 
-<script>
-import adopterRule from "./adopterRule.vue";
-import findRule from "./findRule.vue";
-import downloadFile from "./downFile.vue";
+<script setup>
+import adopterRule from "./rule/adopterRule.vue";
+import findRule from "./rule/findRule.vue";
+import downloadFile from "./rule/downFile.vue";
+import {ref} from 'vue'
 
-export default {
-  components:{
-    adopterRule,
-    findRule,
-    downloadFile
+const carousel = ref([
+  {
+    "index": "adopterRule",
+    "name": "领养须知"
   },
-  // eslint-disable-next-line vue/multi-word-component-names
-  name: 'carousel',
-  data: function () {
-    return {
-      carousel: [
-        {
-          "index": "adopterRule",
-          "name": "领养须知"
-        },
-        {
-          "index": "findRule",
-          "name": "送养须知"
-        },
-        {
-          "index": "downloadFile",
-          "name": "领养协议"
-        }
-      ],
-      adopterFlag : false,
-      findFlag : false,
-      downFlag : false,
-    }
+  {
+    "index": "findRule",
+    "name": "送养须知"
+  },
+  {
+    "index": "downloadFile",
+    "name": "领养协议"
   }
-}
+]);
+
+const adopterFlag = ref(false);
+const findFlag = ref(false);
+const downFlag = ref(false);
 </script>
 
 <style scoped>

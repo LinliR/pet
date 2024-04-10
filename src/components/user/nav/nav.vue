@@ -68,7 +68,8 @@ export default {
 .nav-header {
   height: 50px;
   line-height: 50px;
-  background: rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid #eee;
+  //background: rgba(0, 0, 0, 0.1);
   width: 100%;
 }
 
@@ -88,7 +89,7 @@ export default {
   margin-left: 10px;
   text-decoration: none;
   font-size: 18px;
-  color:white;
+  color:black;
   font-weight: bolder;
 }
 </style>
