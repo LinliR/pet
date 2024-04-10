@@ -55,6 +55,16 @@ const router = createRouter({
             },
           ]
         },
+        {
+          path :'/adoptCommit',
+          name:'adoptCommit',
+          component:()=>import("../components/user/publish/adoptCommit.vue"),
+        },
+        {
+          path :'/findCommit',
+          name:'findCommit',
+          component:()=>import("../components/user/publish/findCommit.vue"),
+        }
       ]
     },
     {
