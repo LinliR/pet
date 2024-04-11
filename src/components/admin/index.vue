@@ -1,47 +1,25 @@
 <template>
+
   <el-menu
       :default-active="activeIndex"
       class="el-menu-demo"
       mode="horizontal"
       :ellipsis="false"
-      @select="handleSelect"
+      router
   >
-
-    <div class="flex-grow" />
-    <el-menu-item index="1">普通用户</el-menu-item>
-    <el-menu-item index="2">动物信息</el-menu-item>
-    <el-menu-item index="3">收养心得信息</el-menu-item>
-
-    <div  style="margin-top:17px;float: right;display: inline-block;margin-left: 1100px">
+    <div style="margin-left: 10%"></div>
+    <el-menu-item index="userManage">普通用户</el-menu-item>
+    <el-menu-item index="pet">动物信息</el-menu-item>
+    <el-menu-item index="adoptFeel">收养心得信息</el-menu-item>
+    <div  style="margin-top:17px;float: right;display: inline-block;margin-left: 50%;">
       宠物收养管理系统
     </div>
   </el-menu>
 
+  <router-view></router-view>
 
 
-  <el-table :data="tableData" style="width: 100%;margin-top: 30px;margin-left: 10%;">
-    <el-table-column prop="account" label="账号" width="180" />
-    <el-table-column prop="userName" label="用户名" width="180" />
-    <el-table-column prop="tel" label="手机号" width="180" />
-    <el-table-column prop="address" label="地址" width="180" />
-    <el-table-column prop="email" label="邮件" width="180" />
-    <el-table-column prop="signature" label="个性签名" width="180" />
-    <el-table-column prop="userType" label="用户类型" width="180" />
 
-    <el-table-column label="Operations">
-      <template #default="scope">
-        <el-button size="small" @click="handleEdit(scope.$index, scope.row)"
-        >修改密码</el-button
-        >
-        <el-button
-            size="small"
-            type="danger"
-            @click="handleDelete(scope.$index, scope.row)"
-        >删除</el-button
-        >
-      </template>
-    </el-table-column>
-  </el-table>
 </template>
 
 <script>
