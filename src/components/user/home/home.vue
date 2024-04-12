@@ -2,22 +2,26 @@
   <carousel></carousel>
 
 
-    <div class="home-content">
-      <h1>热门领养</h1>
-      <el-card class="pet-content" v-for="adoptData in adoptList" :key="adoptData.id">
+
+
+  <div>
+    <h1>热门领养</h1>
+    <el-card class="pet-content" v-for="animal in hotAnimalArray" :key="animal.id">
         <template #header>
-          {{adoptData.name}}
-          <div style="display: inline-block;float: right">
-            <div class="tag"  v-for="degree in adoptData.degrees" :key="degree.index">
-              <el-tag type="danger" v-if="degree.index === 1">{{ degree.name }}</el-tag>
-              <el-tag type="danger" v-if="degree.index === 2">{{ degree.name }}</el-tag>
-              <el-tag type="primary" v-if="degree.index === 3">{{ degree.name }}</el-tag>
+            {{animal.name}}
+            <div style="display: inline-block;float: right">
+                <el-tag v-if="animal.animalHealthInfo.sterilization=='False'" type="danger">未绝育</el-tag>
+                <el-tag v-if="animal.animalHealthInfo.sterilization=='True'" type="success">已绝育</el-tag>
+                <el-tag v-if="animal.animalHealthInfo.immune=='False'" type="danger">未免疫</el-tag>
+                <el-tag v-if="animal.animalHealthInfo.immune=='True'" type="success">已免疫</el-tag>
+                <el-tag v-if="animal.animalHealthInfo.desinsectization=='False'" type="danger">未驱虫</el-tag>
+                <el-tag v-if="animal.animalHealthInfo.desinsectization=='True'" type="success">已驱虫</el-tag>
             </div>
-          </div>
         </template>
-        <img :src="adoptData.imgSrc" height="200px" width="320px"/>
-        <p style="margin-top: 6px;float: right">{{ adoptData.address }}</p>
-      </el-card>
+        <img :src="animal.imgSrc" height="200px" width="320px"/>
+        <p style="margin-top: 6px;float: right">{{ animal.province }}{{ animal.city }}</p>
+    </el-card>
+  </div>
 
 
       <h1 style="margin-top: 30px">同城迷失的小精灵</h1>
@@ -38,126 +42,55 @@
     </div>
 </template>
 
-<script setup>
-import {ref} from  'vue';
+<script>
 import carousel from './carousel.vue';
+import {inject, onMounted, reactive,ref} from 'vue';
 
-const adoptList = ref([
-  {
-    id : '1',
-    name : "旺旺",
-    degrees : [
-      {
-        index : 1,
-        name : "已检疫"
-      },
-      {
-        index : 2,
-        name : "已绝育"
-      },
-      {
-        index : 3,
-        name : "已免疫"
-      },
-    ],
-    imgSrc : "/src/assert/images/1.jpg",
-    address : "甘肃省 兰州市 城关区"
-  },
-  {
-    id : '2',
-    name : "支竹",
-    degrees : [
-      {
-        index : 2,
-        name : "已绝育"
-      },
-      {
-        index : 3,
-        name : "已免疫"
-      },
-    ],
-    imgSrc : "/src/assert/images/2.jpg",
-    address : "北京市 朝阳"
-  },
-  {
-    id : '3',
-    name : "懒虫",
-    degrees : [
-    ],
-    imgSrc : "/src/assert/images/3.jpg",
-    address : "广东省 深圳市 南山区"
-  },
-  {
-    id : '4',
-    name : "泰泰",
-    degrees : [
-      {
-        index : 3,
-        name : "已免疫"
-      },
-    ],
-    imgSrc : "/src/assert/images/4.jpg",
-    address : "上海市 浦东区<"
-  }
-]);
-const findList = ref([
-  {
-    id : '1',
-    name : "旺旺",
-    degrees : [
-      {
-        index : 1,
-        name : "已检疫"
-      },
-      {
-        index : 2,
-        name : "已绝育"
-      },
-      {
-        index : 3,
-        name : "已免疫"
-      },
-    ],
-    imgSrc : "/src/assert/images/5.jpeg",
-    address : "甘肃省 兰州市 城关区"
-  },
-  {
-    id : '2',
-    name : "支竹",
-    degrees : [
-      {
-        index : 2,
-        name : "已绝育"
-      },
-      {
-        index : 3,
-        name : "已免疫"
-      },
-    ],
-    imgSrc : "/src/assert/images/6.jpg",
-    address : "北京市 朝阳"
-  },
-  {
-    id : '3',
-    name : "懒虫",
-    degrees : [
-    ],
-    imgSrc : "/src/assert/images/7.jpeg",
-    address : "广东省 深圳市 南山区"
-  },
-  {
-    id : '4',
-    name : "泰泰",
-    degrees : [
-      {
-        index : 3,
-        name : "已免疫"
-      },
-    ],
-    imgSrc : "/src/assert/images/8.jpeg",
-    address : "上海市 浦东区<"
-  }
-]);
+export default {
+    components: {
+        carousel
+    },
+    // eslint-disable-next-line vue/multi-word-component-names
+    name: 'home',
+    data: function () {
+        return {
+            carousel: [
+                {
+                    "index": "adopterRule",
+                    "name": "领养须知"
+                },
+                {
+                    "index": "findRule",
+                    "name": "寻宠须知"
+                },
+                {
+                    "index": "downloadFile",
+                    "name": "领养协议"
+                }
+            ]
+        }
+    },
+    setup() {
+        const axios = inject('axios'); // 注入axios实例
+        const hotAnimalArray = reactive([]);
+        onMounted(
+            () => {
+                axios.getData('animalInfo/hotAnimal').then(res => {
+                    if (res.code == 200) {
+                        for (let i = 0; i < res.data.length; i++) {
+                            hotAnimalArray.push(res.data[i]);
+                        }
+                    }
+                })
+            }
+        );
+
+        return {
+            hotAnimalArray
+        };
+
+    },
+};
 </script>
 
 <style scoped>

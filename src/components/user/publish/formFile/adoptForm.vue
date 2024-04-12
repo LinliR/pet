@@ -10,7 +10,7 @@
       </el-form-item>
       <div style="margin-left: 20px;"></div>
       <el-form-item label="性别">
-        <el-radio-group v-model="formData.sex">
+        <el-radio-group v-model="formData.gender">
           <el-radio value="man">男</el-radio>
           <el-radio value="woman">女</el-radio>
         </el-radio-group>
@@ -20,18 +20,18 @@
 
     <el-form-item>
       <el-form-item label="品种">
-        <el-input v-model="formData.age"/>
+        <el-input v-model="formData.species"/>
       </el-form-item>
       <div style="margin-left: 30px;"></div>
-      <el-form-item label="宠物特性">
-        <el-checkbox-group v-model="formData.type">
-          <el-checkbox value="Online activities" name="type">
+      <el-form-item label="宠物健康信息">
+        <el-checkbox-group v-model="formData.animalHealthInfo">
+          <el-checkbox value="sterilization" name="type">
             已绝育
           </el-checkbox>
-          <el-checkbox value="Promotion activities" name="type">
+          <el-checkbox value="immune" name="type">
             已免疫
           </el-checkbox>
-          <el-checkbox value="Offline activities" name="type">
+          <el-checkbox value="desinsectization" name="type">
             已驱虫
           </el-checkbox>
         </el-checkbox-group>
@@ -40,18 +40,17 @@
 
     <el-form-item>
       <el-form-item label="地区">
-        <el-input style="margin-left: 10px; width: 100px" v-model="formData.age" placeholder="省"/>
-        <el-input style="margin-left: 10px; width: 100px" v-model="formData.age" placeholder="市"/>
-        <el-input style="margin-left: 10px; width: 100px" v-model="formData.age" placeholder="区"/>
+        <el-input style="margin-left: 10px; width: 100px" v-model="formData.province" placeholder="省"/>
+        <el-input style="margin-left: 10px; width: 100px" v-model="formData.city" placeholder="市"/>
       </el-form-item>
       <div style="margin-left: 30px;"></div>
       <el-form-item label="领养后需要打卡">
-        <el-input v-model="formData.age"/>
+        <el-input v-model="formData.needCardNum"/>
       </el-form-item>
     </el-form-item>
 
-    <el-form-item label="送养后描述">
-      <el-input type="textarea" v-model="formData.age" style="width: 600px;" />
+    <el-form-item label="宠物描述">
+      <el-input type="textarea" v-model="formData.description" style="width: 600px;" />
     </el-form-item>
 
     <el-form-item label="图片">
@@ -59,7 +58,7 @@
     </el-form-item>
 
     <el-form-item style="float: right;margin-right: 50px;margin-top: 30px;">
-      <el-button type="primary">提交</el-button>
+      <el-button @click="submitAnimalInfo()" type="primary">提交</el-button>
     </el-form-item>
 
 
@@ -67,13 +66,32 @@
 </template>
 
 <script>
+import {reactive} from 'vue'
 
 export default {
-  data: function () {
-    return {
-      formData: {}
+
+    setup(){
+        const formData=reactive({})
+
+        return{
+            formData
+        }
+    },
+    methods:{
+        submitAnimalInfo(){
+            let AnimalInfo=JSON.parse(JSON.stringify(this.formData));
+
+            let animalHealthInfo={sterilization:false,immune:false,desinsectization:false};
+            if (this.formData.animalHealthInfo.includes("sterilization"))
+                animalHealthInfo.sterilization=true;
+            if (this.formData.animalHealthInfo.includes("immune"))
+                animalHealthInfo.immune=true;
+            if (this.formData.animalHealthInfo.includes("desinsectization"))
+                animalHealthInfo.desinsectization=true;
+            AnimalInfo.animalHealthInfo=animalHealthInfo;
+            console.log(AnimalInfo)
+        }
     }
-  }
 }
 
 </script>
