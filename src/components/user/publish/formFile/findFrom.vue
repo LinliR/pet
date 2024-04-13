@@ -20,23 +20,22 @@
 
     <el-form-item>
       <el-form-item label="品种">
-        <el-input v-model="formData.age" />
+        <el-input v-model="formData.species" />
       </el-form-item>
       <el-form-item label="走失区域" style="margin-left: 20px;">
-        <el-input style="margin-left: 10px; width: 100px" v-model="formData.age" placeholder="省"/>
-        <el-input style="margin-left: 10px; width: 100px" v-model="formData.age" placeholder="市"/>
-        <el-input style="margin-left: 10px; width: 100px" v-model="formData.age" placeholder="区"/>
+        <el-input style="margin-left: 10px; width: 100px" v-model="formData.province" placeholder="省"/>
+        <el-input style="margin-left: 10px; width: 100px" v-model="formData.city" placeholder="市"/>
       </el-form-item>
     </el-form-item>
 
     <el-form-item>
       <el-form-item label="悬赏价格">
-        <el-input v-model="formData.age" />
+        <el-input v-model="formData.reward" />
       </el-form-item>
     </el-form-item>
 
     <el-form-item label="详情">
-      <el-input type="textarea" v-model="formData.age" />
+      <el-input type="textarea" v-model="formData.description" />
     </el-form-item>
 
     <el-form-item label="图片">
@@ -44,7 +43,7 @@
     </el-form-item>
 
     <el-form-item style="float: right;margin-right: 50px;margin-top: 30px;">
-      <el-button type="primary">提交</el-button>
+      <el-button @click="submitAnimalInfo()" type="primary">提交</el-button>
     </el-form-item>
 
 
@@ -53,14 +52,33 @@
 
 <script>
 
-export default {
-  data:function () {
-    return{
-      formData : {
+import {reactive} from "vue";
+import http from "@/http/httpUtil.js";
+import {ElMessage} from "element-plus";
 
-      }
+export default {
+    setup(){
+        const formData=reactive({})
+        return{
+            formData
+        }
+    },
+    methods:{
+        submitAnimalInfo(){
+            let animalInfo=JSON.parse(JSON.stringify(this.formData));
+            animalInfo.animalState='search';
+            http.post("animalInfo/add",animalInfo).then(res =>{
+                if (res.code==200){
+                    ElMessage({
+                        message: '发布寻宠信息成功！',
+                        type: 'success',
+                    })
+                }else {
+                    ElMessage.error("发布寻宠信息失败！")
+                }
+            })
+        }
     }
-  }
 }
 
 </script>

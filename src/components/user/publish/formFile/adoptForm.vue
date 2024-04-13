@@ -67,29 +67,43 @@
 
 <script>
 import {reactive} from 'vue'
-
+import http from '../../../../http/httpUtil.js'
+import { ElMessage } from 'element-plus'
 export default {
+
 
     setup(){
         const formData=reactive({})
-
         return{
             formData
         }
     },
     methods:{
         submitAnimalInfo(){
-            let AnimalInfo=JSON.parse(JSON.stringify(this.formData));
+            let animalInfo=JSON.parse(JSON.stringify(this.formData));
 
-            let animalHealthInfo={sterilization:false,immune:false,desinsectization:false};
-            if (this.formData.animalHealthInfo.includes("sterilization"))
-                animalHealthInfo.sterilization=true;
-            if (this.formData.animalHealthInfo.includes("immune"))
-                animalHealthInfo.immune=true;
-            if (this.formData.animalHealthInfo.includes("desinsectization"))
-                animalHealthInfo.desinsectization=true;
-            AnimalInfo.animalHealthInfo=animalHealthInfo;
-            console.log(AnimalInfo)
+            let animalHealthInfo={sterilization:"False",immune:"False",desinsectization:"False"};
+            if (this.formData.animalHealthInfo.length>0) {
+
+                if (this.formData.animalHealthInfo.includes("sterilization"))
+                    animalHealthInfo.sterilization = "True";
+                if (this.formData.animalHealthInfo.includes("immune"))
+                    animalHealthInfo.immune = "True";
+                if (this.formData.animalHealthInfo.includes("desinsectization"))
+                    animalHealthInfo.desinsectization = "True";
+            }
+            animalInfo.animalHealthInfo=animalHealthInfo;
+            animalInfo.animalState='send';
+            http.post("animalInfo/add",animalInfo).then(res =>{
+                if (res.code==200){
+                    ElMessage({
+                        message: '保存动物信息成功！',
+                        type: 'success',
+                    })
+                }else {
+                    ElMessage.error("保存动物信息失败！")
+                }
+            })
         }
     }
 }
