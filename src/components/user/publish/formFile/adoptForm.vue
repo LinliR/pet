@@ -54,7 +54,19 @@
     </el-form-item>
 
     <el-form-item label="图片">
-      <el-icon><Plus /></el-icon>
+        <el-upload
+                v-model:file-list="fileList"
+                action="http://localhost:8080/img/upload"
+                list-type="picture-card"
+                :on-preview="handlePictureCardPreview"
+                :on-remove="handleRemove"
+        >
+            <el-icon><Plus /></el-icon>
+        </el-upload>
+
+        <el-dialog v-model="dialogVisible">
+            <img w-full :src="dialogImageUrl" alt="Preview Image" />
+        </el-dialog>
     </el-form-item>
 
     <el-form-item style="float: right;margin-right: 50px;margin-top: 30px;">
@@ -65,16 +77,40 @@
   </el-form>
 </template>
 
-<script>
+<script lang="ts">
 import {reactive} from 'vue'
 import http from '../../../../http/httpUtil.js'
 import { ElMessage } from 'element-plus'
+import { ref } from 'vue'
+import { Plus } from '@element-plus/icons-vue'
+
+import { UploadProps, UploadUserFile } from 'element-plus'
+
 export default {
 
 
     setup(){
         const formData=reactive({})
+
+        const fileList = ref<UploadUserFile[]>([
+        ])
+
+        const dialogImageUrl = ref('')
+        const dialogVisible = ref(false)
+
+        const handleRemove: UploadProps['onRemove'] = (uploadFile, uploadFiles) => {
+            console.log(uploadFile, uploadFiles)
+        }
+
+        const handlePictureCardPreview: UploadProps['onPreview'] = (uploadFile) => {
+            dialogImageUrl.value = uploadFile.url!
+                dialogVisible.value = true
+        }
+
         return{
+            handleRemove,
+            handlePictureCardPreview,
+            fileList,
             formData
         }
     },
@@ -94,6 +130,7 @@ export default {
             }
             animalInfo.animalHealthInfo=animalHealthInfo;
             animalInfo.animalState='send';
+            animalInfo.animalImgList=this.fileList;
             http.post("animalInfo/add",animalInfo).then(res =>{
                 if (res.code==200){
                     ElMessage({
