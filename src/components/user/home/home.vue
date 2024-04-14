@@ -4,7 +4,7 @@
 
   <div>
     <h1>热门宠物</h1>
-    <el-card class="pet-content" v-for="animal in hotAnimalArray" :key="animal.id">
+    <el-card class="pet-content" v-for="animal in hotAnimalArray" :key="animal.id" @click="petInfo(animal)">
       <template #header>
         {{ animal.name }}
         <div v-if="animal.animalHealthInfo==null" style="display: inline-block;float: right">
@@ -76,18 +76,19 @@ export default {
     onMounted(
         () => {
           axios.getData('animalInfo/hotAnimal').then(res => {
+            console.log(res)
             if (res.code == 200) {
               for (let i = 0; i < res.data.length; i++) {
                 hotAnimalArray.push(res.data[i]);
               }
             }
+            console.log(hotAnimalArray)
           });
           axios.getData('animalInfo/hotSearchAnimal').then(res => {
             if (res.code == 200) {
               for (let i = 0; i < res.data.length; i++) {
                 hotSearchAnimalArray.push(res.data[i]);
               }
-              console.log(hotSearchAnimalArray)
             }
           })
         }
@@ -99,6 +100,15 @@ export default {
     };
 
   },
+  methods:{
+    petInfo:function(obj) {
+      console.log(obj)
+      this.$router.push({
+        path:"/userPet",
+        query:obj
+      });
+    }
+  }
 };
 </script>
 

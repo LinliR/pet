@@ -10,7 +10,7 @@
 
       <div class="nav_right">
         <div class="link-button" v-for="nav in nav_right" @click="routerPush(nav)">
-          {{ nav.router === 'center' && userName !== undefined ? userName : nav.name }}
+          {{ nav.router === 'center' && userName !== null ? userName : nav.name }}
         </div>
       </div>
 
@@ -75,7 +75,7 @@ export default {
       }
       this.$router.push(nav.router)
     }
-  }
+  },
 }
 </script>
 

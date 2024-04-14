@@ -25,12 +25,12 @@ export default {
             message: '登录成功！',
             type: 'success',
           });
-          let data = res.data.data;
+          let data = res.data;
           localStorage.setItem("userId", data.id);
           localStorage.setItem("userName", data.userName);
           this.$router.back();
         } else {
-          ElMessage.error(res.data.message);
+          ElMessage.error(res.message);
         }
       })
     }
