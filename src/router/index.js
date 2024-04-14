@@ -32,6 +32,18 @@ const router = createRouter({
                     path: '/message',
                     name: 'message',
                     component: () => import("../components/user/message/message.vue"),
+                    children:[
+                        {
+                            path: '/review',
+                            name: 'review',
+                            component: () => import("../components/user/message/operation/review.vue"),
+                        },
+                        {
+                            path: '/collection',
+                            name: 'collection',
+                            component: () => import("../components/user/message/operation/collection.vue"),
+                        }
+                    ]
                 },
                 {
                     path: '/collection',

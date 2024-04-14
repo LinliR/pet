@@ -64,15 +64,14 @@ export default {
   },
   methods: {
     routerPush: function (nav) {
-      if (nav.router === "center" || nav.router === "publish") {
-        var userId = localStorage.getItem("userId");
-        if (!userId) {
-          this.$router.push({
-            name: "user_login",
-          })
-          return;
-        }
+      var userId = localStorage.getItem("userId");
+      if (!userId) {
+        this.$router.push({
+          name: "user_login",
+        })
+        return;
       }
+
       this.$router.push(nav.router)
     }
   },
