@@ -6,3 +6,18 @@
 .ml20px {
     margin-left: 20px;
 }
+
+
+.pet-content {
+    display: inline-block;
+    height: 320px;
+    width: 320px;
+    margin-left: 60px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.tag {
+    margin-left: 5px;
+    float: left;
+}

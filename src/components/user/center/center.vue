@@ -22,6 +22,11 @@
           <tr>
             <td colspan="2">个性签名</td>
           </tr>
+          <tr>
+            <td>
+              <el-button type="danger" @click="loginOut()">登出</el-button>
+            </td>
+          </tr>
         </table>
       </div>
     </div>
@@ -30,8 +35,29 @@
 </template>
 
 <script>
+import {ElMessage} from "element-plus";
+import axiosInstance from "@/http/httpUtil.js";
+
 export default {
-  name: "center"
+  name: "center",
+  methods: {
+    loginOut: function () {
+      var userId = localStorage.getItem("userId");
+      if (userId) {
+        let url = "/user/logOut/" + userId;
+        axiosInstance.delete(url).then(res => {
+          if (res.code === 200) {
+            ElMessage({
+              message: '登出成功！',
+              type: 'success',
+            })
+            localStorage.removeItem("userId");
+            this.$router.push("home")
+          }
+        })
+      }
+    }
+  }
 }
 </script>
 
@@ -65,7 +91,7 @@ export default {
   margin-left: 100px;
 }
 
-.user-info-context table td{
+.user-info-context table td {
   height: 30px;
 }
 </style>
