@@ -11,6 +11,10 @@ const axiosInstance = axios.create({
 
 // 添加全局请求/响应拦截器（可选）
 axiosInstance.interceptors.request.use(config => {
+    const userid = localStorage.getItem('userId');
+    if (userid) {
+        config.headers['X-User-ID'] = userid;
+    }
     // 请求前的处理
     return config;
 });
