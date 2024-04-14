@@ -19,7 +19,7 @@
           <el-tag v-if="animal.animalHealthInfo.desinsectization=='True'" type="success">已驱虫</el-tag>
         </div>
       </template>
-      <img :src="animal.imgSrc" height="200px" width="320px"/>
+      <img :src="animal.animalImgList[0].url" height="200px" width="320px"/>
       <p style="margin-top: 6px;float: right">{{ animal.province }}{{ animal.city }}</p>
     </el-card>
   </div>
