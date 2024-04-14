@@ -28,6 +28,8 @@
 </template>
 
 <script>
+import http from '../../http/httpUtil.js'
+import { ElMessage } from 'element-plus'
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -46,7 +48,14 @@ export default {
     loginCommit:function (){
       let loginForm = this.loginData;
       if (loginForm.loginName != '' && loginForm.loginPassword != ''){
-        this.$router.push('adminIndex');
+          let url='admin/adminLogin/'+loginForm.loginName+'/'+loginForm.loginPassword;
+          http.getData(url).then(res =>{
+              if (res.code==200){
+                  this.$router.push('adminIndex');
+              }else {
+                  ElMessage.error("登录失败！，请重新输入账号密码");
+              }
+          })
       }
 
     }
