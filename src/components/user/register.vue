@@ -19,7 +19,7 @@ export default {
     register: function () {
       let loginForm = this.loginData;
       http.post("user/regist", loginForm).then(res => {
-        if (res.data.code == 200) {
+        if (res.code == 200) {
           ElMessage({
             message: '保存成功！',
             type: 'success',

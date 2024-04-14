@@ -22,7 +22,7 @@ const non_find = 404
 axiosInstance.interceptors.response.use(
     response => {
         if (response.status === success) {
-            return Promise.resolve(response);
+            return Promise.resolve(response.data);
         } else {
             return Promise.reject(response);
         }

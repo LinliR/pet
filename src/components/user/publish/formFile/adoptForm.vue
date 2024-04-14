@@ -100,6 +100,7 @@ export default {
                         message: '保存动物信息成功！',
                         type: 'success',
                     })
+                  // this.$router.push("center")
                 }else {
                     ElMessage.error("保存动物信息失败！")
                 }

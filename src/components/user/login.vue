@@ -20,7 +20,7 @@ export default {
       let loginForm = this.loginData
       let url = "user/login/" + loginForm.account + "/" + loginForm.password;
       http.get(url, null).then(res => {
-        if (res.data.code == 200) {
+        if (res.code == 200) {
           ElMessage({
             message: '登录成功！',
             type: 'success',
