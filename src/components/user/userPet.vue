@@ -9,7 +9,18 @@
           <table>
             <tr>
               <td>
-                <img src="../../assert/images/findForm.png" class="content-img">
+                <div v-for="item in pet.animalImgList">
+                  <img :src="item.url" class="content-img">
+                </div>
+
+<!--                <div class="block text-center">-->
+<!--                  <span class="demonstration">Motion blur the switch (default)</span>-->
+<!--                  <el-carousel height="200px" motion-blur>-->
+<!--                    <el-carousel-item v-for="item in pet.animalImgList" :key="item">-->
+<!--                      <h3 class="small justify-center" text="2xl">{{ item.url }}</h3>-->
+<!--                    </el-carousel-item>-->
+<!--                  </el-carousel>-->
+<!--                </div>-->
               </td>
             </tr>
           </table>
@@ -122,7 +133,19 @@
       </el-card>
 
       <el-card style="margin-top: 30px;min-height: 300px">
-        暂无评论信息
+        <div v-if="reviewList.length === 0">
+          暂无评论信息
+        </div>
+        <el-card class="review" v-for="item in reviewList" :key="item.id" shadow="never">
+          <div class="review-image-div" style="text-align: center">
+            <img class="review-image" :src="item.personImgUrl" alt="">
+            <div>{{ item.personName }}</div>
+          </div>
+          <div class="review-personReview">
+            {{ item.content }}
+          </div>
+        </el-card>
+
 
         <el-card style="margin-top: 20px;">
           <el-input type="textarea" placeholder="请输入你想说的话"></el-input>
@@ -147,6 +170,20 @@ export default {
       pet: {},
       isCollection: false,
       isAdopt: false,
+      reviewList:[
+        {
+          personImgUrl:"https://iknow-pic.cdn.bcebos.com/a8773912b31bb0513302abb2247adab44aede002",
+          personName:"Tom",
+          content:"dasdasudhhaiusdasd",
+          reviewTime:"2024-04-12 23:59:59"
+        },
+        {
+          personImgUrl:"https://iknow-pic.cdn.bcebos.com/a8773912b31bb0513302abb2247adab44aede002",
+          personName:"Marry",
+          content:"dasdasudhhaiusdasd",
+          reviewTime:"2024-04-12 23:59:59"
+        }
+      ]
     }
   },
   created() {
@@ -156,7 +193,6 @@ export default {
       if (res.code === 200) {
         this.pet = res.data;
       }
-      console.log(res)
     })
   }
 }
@@ -223,5 +259,24 @@ export default {
 .review-button {
   margin-top: 10px;
   float: right;
+}
+.review{
+  height: 100px;
+  background: rgba(0,0,0,0.1);
+  margin-top: 10px;
+}
+
+.review-image-div .review-image{
+  background: #000;
+  width: 50px;
+  height: 50px;
+  display: block;
+}
+.review-image-div{
+  float: left;
+}
+.review-personReview{
+  margin-left: 10px;
+  float: left;
 }
 </style>
