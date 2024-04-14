@@ -76,12 +76,9 @@ export default {
     onMounted(
         () => {
           axios.getData('animalInfo/hotAnimal').then(res => {
-
-            let result = res.data;
-            console.log(result);
-            if (result == 200) {
-              for (let i = 0; i < result.data.length; i++) {
-                hotAnimalArray.push(result.data[i]);
+            if (res.code == 200) {
+              for (let i = 0; i < res.data.length; i++) {
+                hotAnimalArray.push(res.data[i]);
               }
             }
           });
