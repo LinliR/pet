@@ -6,7 +6,13 @@
           <div style="margin-top: 20px;margin-left: 15px;"><h1>宠物名：{{pet.name}}</h1></div>
         </template>
         <div class="content-left">
-          <img src="../../assert/images/findForm.png" class="content-img">
+          <table>
+            <tr>
+              <td>
+                <img src="../../assert/images/findForm.png" class="content-img">
+              </td>
+            </tr>
+          </table>
         </div>
         <div class="content-center">
           <table>
@@ -61,20 +67,27 @@
           </table>
         </div>
         <div class="content-right">
-          <table>
-            <tr>
-              <td class="opera-button">收藏</td>
-            </tr>
-            <tr style="height: 20px"></tr>
-            <tr>
-              <td class="opera-button">收养</td>
-            </tr>
-            <tr style="height: 20px"></tr>
-            <tr>
-              <td class="opera-button">与主人对话</td>
-            </tr>
-          </table>
+          <el-card  shadow="never">
+            <table>
+              <tr>
+                <td><p  class="opera-button">收藏</p></td>
+              </tr>
+              <tr style="height: 20px"></tr>
+              <tr>
+                <td ><p  class="opera-button">收养</p></td>
+              </tr>
+              <tr style="height: 20px"></tr>
+              <tr>
+                <td ><p  class="opera-button">与主人对话</p></td>
+              </tr>
+            </table>
+          </el-card>
+
         </div>
+      </el-card>
+
+      <el-card style="margin-top: 30px;min-height: 300px" >
+        暂无评论信息
       </el-card>
 
 
@@ -143,11 +156,18 @@ export default {
 .content-right {
   width: 250px;
   height: 600px;
-  background: rgba(0, 0, 0, 0.3);
   display: inline-block;
   margin-left: 50px;
+  text-align: left;
 }
 .opera-button{
   cursor: pointer;
+}
+.opera-button:hover{
+  cursor: pointer;
+  color: white;
+  background:#409EFF;
+  padding: 5px;
+  border-radius: 5%;
 }
 </style>
