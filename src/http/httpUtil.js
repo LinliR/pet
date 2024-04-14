@@ -1,5 +1,6 @@
 // src/axios.js
 import axios from 'axios';
+import router from "@/router/index.js";
 
 // 创建axios实例，设置基本URL和默认配置
 const axiosInstance = axios.create({
@@ -14,17 +15,39 @@ axiosInstance.interceptors.request.use(config => {
     return config;
 });
 
-axiosInstance.interceptors.response.use(response => {
-    // 响应后的处理
-    return response.data;
-}, error => {
-    // 处理错误响应
-    return Promise.reject(error);
-});
+const success = 200
+const non_login = 401
+const non_find = 404
+
+axiosInstance.interceptors.response.use(
+    response => {
+        if (response.status === success) {
+            return Promise.resolve(response);
+        } else {
+            return Promise.reject(response);
+        }
+    },
+    error => {
+        if (!error.response.status) {
+            return Promise.reject(error.response);
+        }
+
+        switch (error.response.status) {
+            case non_login:
+                router.replace({
+                    path: '/',
+                    query: {redirect: router.currentRoute.fullPath}
+                });
+                break
+            case non_find:
+                break
+        }
+    }
+);
 
 // 或者直接将HTTP方法挂在axios实例上
 axiosInstance.getData = (url) => axiosInstance.get(url, {});
-axiosInstance.postData = (url, data) => axiosInstance.post(url, data,{});
+axiosInstance.postData = (url, data) => axiosInstance.post(url, data, {});
 axiosInstance.putData = (url, data) => axiosInstance.put(url, data, {});
 axiosInstance.deleteData = (url) => axiosInstance.delete(url, {});
 

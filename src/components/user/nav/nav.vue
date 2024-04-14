@@ -9,9 +9,9 @@
       </div>
 
       <div class="nav_right">
-          <router-link class="link-button"  :to="nav.router" v-for="nav in nav_right">
-            {{ nav.name }}
-          </router-link>
+        <div class="link-button" v-for="nav in nav_right" @click="routerPush(nav)">
+          {{ nav.router === 'center' && userName !== undefined ? userName : nav.name }}
+        </div>
       </div>
 
     </div>
@@ -58,7 +58,22 @@ export default {
           name: "发布",
           router: "publish"
         }
-      ]
+      ],
+      userName: localStorage.getItem("userName")
+    }
+  },
+  methods: {
+    routerPush: function (nav) {
+      if (nav.router === "center" || nav.router === "publish") {
+        var userId = localStorage.getItem("userId");
+        if (!userId) {
+          this.$router.push({
+            name: "user_login",
+          })
+          return;
+        }
+      }
+      this.$router.push(nav.router)
     }
   }
 }
@@ -85,11 +100,13 @@ export default {
 .nav_right {
   float: right;
 }
-.link-button{
+
+.link-button {
   margin-left: 10px;
   text-decoration: none;
   font-size: 18px;
-  color:black;
+  color: black;
   font-weight: bolder;
+  display: inline-block;
 }
 </style>

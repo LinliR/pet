@@ -64,6 +64,16 @@ const router = createRouter({
                     path: '/findCommit',
                     name: 'findCommit',
                     component: () => import("../components/user/publish/findCommit.vue"),
+                },
+                {
+                    path: '/login',
+                    name: 'user_login',
+                    component: () => import("../components/user/login.vue"),
+                },
+                {
+                    path: '/register',
+                    name: 'register',
+                    component: () => import("../components/user/register.vue"),
                 }
             ]
         },
