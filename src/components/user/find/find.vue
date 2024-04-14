@@ -80,7 +80,7 @@
 
   <div class="home-content">
     <div>
-      <el-card class="pet-content" v-for="findData in petList" :key="findData.id">
+      <el-card class="pet-content" v-for="findData in petList" :key="findData.id" @click="petInfo(findData)">
         <template #header>
           {{ findData.name }}
           <div style="display: inline-block;float: right">

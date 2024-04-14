@@ -26,7 +26,7 @@
 
   <div>
     <h1 style="margin-top: 30px">热门迷失的小精灵</h1>
-    <el-card class="pet-content" v-for="findData in hotSearchAnimalArray" :key="findData.id">
+    <el-card class="pet-content" v-for="findData in hotSearchAnimalArray" :key="findData.id" @click="petInfo(findData)">
       <template #header>
         {{ findData.name }}
         <div style="display: inline-block;float: right">
