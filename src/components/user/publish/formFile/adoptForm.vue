@@ -100,7 +100,11 @@ export default {
                         message: '保存动物信息成功！',
                         type: 'success',
                     })
-                  // this.$router.push("center")
+                  let id = res.data.id;
+                  this.$router.push({
+                    path:"/userPet",
+                    query:{id:id}
+                  });
                 }else {
                     ElMessage.error("保存动物信息失败！")
                 }

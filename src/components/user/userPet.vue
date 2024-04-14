@@ -3,7 +3,7 @@
     <div class="content">
       <el-card class="pet-content">
         <template #header>
-          <div style="margin-top: 20px;margin-left: 15px;"><h1>宠物名：{{pet.name}}</h1></div>
+          <div style="margin-top: 20px;margin-left: 15px;"><h1>宠物名：{{ pet.name }}</h1></div>
         </template>
         <div class="content-left">
           <table>
@@ -35,7 +35,7 @@
             <tr style="height: 20px"></tr>
             <tr>
               <td>地区:</td>
-              <td>{{ pet.province }} - {{pet.city}}</td>
+              <td>{{ pet.province }} - {{ pet.city }}</td>
             </tr>
             <tr style="height: 20px"></tr>
             <tr>
@@ -54,8 +54,10 @@
                   <el-tag class="ml5" v-if="pet.animalHealthInfo.sterilization=='True'" type="success">已绝育</el-tag>
                   <el-tag class="ml5" v-if="pet.animalHealthInfo.immune=='False'" type="danger">未免疫</el-tag>
                   <el-tag class="ml5" v-if="pet.animalHealthInfo.immune=='True'" type="success">已免疫</el-tag>
-                  <el-tag class="ml5" v-if="pet.animalHealthInfo.desinsectization=='False'" type="danger">未驱虫</el-tag>
-                  <el-tag class="ml5" v-if="pet.animalHealthInfo.desinsectization=='True'" type="success">已驱虫</el-tag>
+                  <el-tag class="ml5" v-if="pet.animalHealthInfo.desinsectization=='False'" type="danger">未驱虫
+                  </el-tag>
+                  <el-tag class="ml5" v-if="pet.animalHealthInfo.desinsectization=='True'" type="success">已驱虫
+                  </el-tag>
                 </div>
               </td>
             </tr>
@@ -67,18 +69,51 @@
           </table>
         </div>
         <div class="content-right">
-          <el-card  shadow="never">
+          <el-card shadow="never">
             <table>
               <tr>
-                <td><p  class="opera-button">收藏</p></td>
+                <td>
+                  <p class="opera-button" v-if="!isCollection">
+                    <el-icon>
+                      <Star/>
+                    </el-icon>
+                    收藏
+                  </p>
+                  <p class="opera-button" v-if="isCollection">
+                    <el-icon>
+                      <StarFilled/>
+                    </el-icon>
+                    取消收藏
+                  </p>
+                </td>
               </tr>
               <tr style="height: 20px"></tr>
               <tr>
-                <td ><p  class="opera-button">收养</p></td>
+                <td>
+                  <p class="opera-button" v-if="!isAdopt">
+                    <el-icon>
+                      <House/>
+                    </el-icon>
+                    收养
+                  </p>
+                  <p class="opera-button" v-if="isAdopt">
+                    <el-icon>
+                      <HomeFilled/>
+                    </el-icon>
+                    收养
+                  </p>
+                </td>
               </tr>
               <tr style="height: 20px"></tr>
               <tr>
-                <td ><p  class="opera-button">与主人对话</p></td>
+                <td>
+                  <p class="opera-button">
+                    <el-icon>
+                      <ChatSquare/>
+                    </el-icon>
+                    与主人对话
+                  </p>
+                </td>
               </tr>
             </table>
           </el-card>
@@ -86,10 +121,15 @@
         </div>
       </el-card>
 
-      <el-card style="margin-top: 30px;min-height: 300px" >
+      <el-card style="margin-top: 30px;min-height: 300px">
         暂无评论信息
-      </el-card>
 
+        <el-card style="margin-top: 20px;">
+          <el-input type="textarea" placeholder="请输入你想说的话"></el-input>
+          <el-button class="review-button" type="primary">提交</el-button>
+        </el-card>
+
+      </el-card>
 
 
     </div>
@@ -101,16 +141,17 @@
 import axiosInstance from '@/http/httpUtil.js'
 
 export default {
-  data: function() {
+  data: function () {
     return {
       pet_id: 0,
-      pet: {}
+      pet: {},
+      isCollection: false,
+      isAdopt: false,
     }
   },
   created() {
-    let pet = this.$route.query
-    this.pet_id = pet.id
-    let url = 'animalInfo' + '/get/' + pet.id
+    let pet = this.$route.query.id
+    let url = 'animalInfo' + '/get/' + pet
     axiosInstance.get(url).then(res => {
       if (res.code === 200) {
         this.pet = res.data;
@@ -122,9 +163,10 @@ export default {
 </script>
 
 <style scoped>
-.ml5{
+.ml5 {
   margin-left: 5px;
 }
+
 .content-left {
   width: 500px;
   height: 600px;
@@ -136,18 +178,20 @@ export default {
   height: 500px;
 }
 
-.pet-content{
+.pet-content {
   height: 800px;
+  width: 1500px;
 }
 
 .content-center {
   width: 500px;
   height: 600px;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.1);
   display: inline-block;
   margin-left: 50px;
 }
-.content-center table{
+
+.content-center table {
   margin-top: 30px;
   margin-left: 50px;
 }
@@ -160,14 +204,24 @@ export default {
   margin-left: 50px;
   text-align: left;
 }
-.opera-button{
+
+.opera-button {
   cursor: pointer;
+  height: 30px;
+  line-height: 30px;
+  text-align: left;
 }
-.opera-button:hover{
+
+.opera-button:hover {
   cursor: pointer;
   color: white;
-  background:#409EFF;
+  background: #409EFF;
   padding: 5px;
   border-radius: 5%;
+}
+
+.review-button {
+  margin-top: 10px;
+  float: right;
 }
 </style>

@@ -102,10 +102,12 @@ export default {
   },
   methods:{
     petInfo:function(obj) {
+
+      let id = obj.id;
       console.log(obj)
       this.$router.push({
         path:"/userPet",
-        query:obj
+        query:{id:id}
       });
     }
   }
