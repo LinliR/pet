@@ -96,16 +96,16 @@
           <el-card shadow="never">
             <table>
               <tr>
-                <td >
-                  <p class="opera-button" v-if="!isCollection">
+                <td>
+                  <p class="opera-button" v-if="!isCollection" @click="addCollection">
                     <el-icon>
-                      <Star/>
+                      <Star />
                     </el-icon>
                     收藏
                   </p>
-                  <p class="opera-button" v-if="isCollection">
+                  <p class="opera-button" v-if="isCollection" @click="deleteCollection">
                     <el-icon>
-                      <StarFilled/>
+                      <StarFilled />
                     </el-icon>
                     取消收藏
                   </p>
@@ -116,13 +116,13 @@
                 <td v-if="pet.animalState ==='send'">
                   <p class="opera-button" v-if="!isAdopt">
                     <el-icon>
-                      <House/>
+                      <House />
                     </el-icon>
                     收养
                   </p>
                   <p class="opera-button" v-if="isAdopt">
                     <el-icon>
-                      <HomeFilled/>
+                      <HomeFilled />
                     </el-icon>
                     收养
                   </p>
@@ -130,13 +130,13 @@
                 <td v-if="pet.animalState ==='search'">
                   <p class="opera-button" v-if="!isAdopt">
                     <el-icon>
-                      <House/>
+                      <House />
                     </el-icon>
                     寻得宠物
                   </p>
                   <p class="opera-button" v-if="isAdopt">
                     <el-icon>
-                      <HomeFilled/>
+                      <HomeFilled />
                     </el-icon>
                     消息勘误
                   </p>
@@ -147,7 +147,7 @@
                 <td>
                   <p class="opera-button">
                     <el-icon>
-                      <ChatSquare/>
+                      <ChatSquare />
                     </el-icon>
                     与主人对话
                   </p>
@@ -190,11 +190,11 @@
 
 <script>
 import axiosInstance from '@/http/httpUtil.js'
-import {ElMessage} from 'element-plus'
+import { ElMessage } from 'element-plus'
 
 
 export default {
-  data: function () {
+  data: function() {
     return {
       pet_id: 0,
       pet: {},
@@ -209,37 +209,82 @@ export default {
     let url = 'animalInfo' + '/get/' + pet
     axiosInstance.get(url).then(res => {
       if (res.code === 200) {
-        this.pet = res.data;
-        let commentUrl = 'comment/getComment/' + res.data.id;
+        this.pet = res.data
+        let commentUrl = 'comment/getComment/' + res.data.id
         axiosInstance.getData(commentUrl).then(res => {
           if (res.code == 200) {
-            this.reviewList = res.data;
+            this.reviewList = res.data
+          }
+        })
+        let collectionUrl = 'collecanimals/getState/' + this.pet.id
+        axiosInstance.get(collectionUrl).then(res => {
+          if (res.code === 200) {
+            this.isCollection = res.data
           }
         })
       }
-    });
+    })
+
 
   },
   methods: {
-    addComment: function () {
-      let userId = localStorage.getItem('userId');
+    addComment: function() {
+      let userId = localStorage.getItem('userId')
       if (!userId) {
-        this.$router.push({name: "user_login"})
+        this.$router.push({ name: 'user_login' })
         return
       }
       if (this.comment.comment == undefined || this.comment.comment.length == 0 || this.comment.comment.length > 50) {
-        ElMessage.error("只能发表1-50个字的评论哦！")
-        return false;
+        ElMessage.error('只能发表1-50个字的评论哦！')
+        return false
       }
-      let url = 'comment/addComment/' + this.comment.comment + "/" + this.pet.id
+      let url = 'comment/addComment/' + this.comment.comment + '/' + this.pet.id
       axiosInstance.putData(url, {}).then(res => {
         if (res.code == 200) {
           ElMessage({
             message: '评论已发布！',
-            type: 'success',
+            type: 'success'
           })
-          this.reviewList.unshift({comment: this.comment.comment, username: localStorage.getItem("userName")});
-          this.comment.comment = "";
+          this.reviewList.unshift({ comment: this.comment.comment, username: localStorage.getItem('userName') })
+          this.comment.comment = ''
+        }
+      })
+    },
+    addCollection: function() {
+      let userId = localStorage.getItem('userId')
+      let petId = this.pet.id
+      let params = {
+        userId: userId,
+        animalId: petId
+      }
+
+      let url = 'collecanimals/add'
+      axiosInstance.post(url, params).then(res => {
+        if (res.code == 200) {
+          ElMessage({
+            message: '收藏成功',
+            type: 'success'
+          })
+          this.isCollection = true
+        }
+      })
+    },
+    deleteCollection: function() {
+      let userId = localStorage.getItem('userId')
+      let petId = this.pet.id
+      let params = {
+        userId: userId,
+        animalId: petId
+      }
+
+      let url = 'collecanimals/cancel'
+      axiosInstance.post(url, params).then(res => {
+        if (res.code == 200) {
+          ElMessage({
+            message: '取消收藏成功',
+            type: 'success'
+          })
+          this.isCollection = false
         }
       })
     }
