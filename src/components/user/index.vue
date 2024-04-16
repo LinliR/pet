@@ -1,11 +1,13 @@
 <template>
   <user_nav></user_nav>
-<!--  <el-affix :offset="500" position="top">-->
-<!--    <el-button type="primary" style="margin-left: 30px;float: right;margin-right: 50px" @click="isDialogueFlag = true">打开对话</el-button>-->
-<!--  </el-affix>-->
+  <el-affix :offset="500" position="top">
+    <el-button type="primary" style="margin-left: 30px;float: right;margin-right: 50px" @click="isDialogueFlag = true">
+      打开对话
+    </el-button>
+  </el-affix>
   <div style="margin-top: 20px;"></div>
-<!--  <home></home>-->
-<!--  <adopt></adopt>-->
+  <!--  <home></home>-->
+  <!--  <adopt></adopt>-->
   <router-view></router-view>
 
   <el-drawer
@@ -29,11 +31,11 @@ export default {
     dialogue
   },
   name: "index",
-  data:function (){
-    return{
-      isDialogueFlag : false
+  data: function () {
+    return {
+      isDialogueFlag: false
     }
-}
+  }
 
 
 }

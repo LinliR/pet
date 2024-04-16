@@ -1,175 +1,179 @@
 <template>
-  <div style="margin-top: 20px">
-    <div class="content">
+  <el-row>
+    <el-col :span="2"></el-col>
+    <!--宠物部分-->
+    <el-col :span="20">
       <el-card class="pet-content">
         <template #header>
           <div style="margin-top: 20px;margin-left: 15px;"><h1>宠物名：{{ pet.name }}</h1></div>
         </template>
-        <div class="content-left">
-          <table>
-            <tr>
-              <td>
-                <div v-for="item in pet.animalImgList">
-                  <img :src="item.url" class="content-img">
-                </div>
-
-                <!--                <div class="block text-center">-->
-                <!--                  <span class="demonstration">Motion blur the switch (default)</span>-->
-                <!--                  <el-carousel height="200px" motion-blur>-->
-                <!--                    <el-carousel-item v-for="item in pet.animalImgList" :key="item">-->
-                <!--                      <h3 class="small justify-center" text="2xl">{{ item.url }}</h3>-->
-                <!--                    </el-carousel-item>-->
-                <!--                  </el-carousel>-->
-                <!--                </div>-->
-              </td>
-            </tr>
-          </table>
-        </div>
-        <div class="content-center">
-          <table>
-            <tr>
-              <td>年龄</td>
-              <td>{{ pet.age }} 岁</td>
-            </tr>
-            <tr style="height: 20px"></tr>
-            <tr>
-              <td>性别</td>
-              <td>
-                {{ pet.gender === 'man' ? '男' : '女' }}
-              </td>
-            </tr>
-            <tr style="height: 20px"></tr>
-            <tr>
-              <td>品种</td>
-              <td>{{ pet.species }}</td>
-            </tr>
-            <tr style="height: 20px"></tr>
-            <tr>
-              <td>地区:</td>
-              <td>{{ pet.province }} - {{ pet.city }}</td>
-            </tr>
-            <tr style="height: 20px"></tr>
-            <tr v-if="pet.animalState ==='search'">
-              <el-tag type="primary">RMB:{{ pet.reward }}</el-tag>
-            </tr>
-            <tr v-if="pet.animalState ==='send'">
-              <td>领养后需要打卡:</td>
-              <td>{{ pet.needCardNum }}</td>
-            </tr>
-            <tr style="height: 20px"></tr>
-            <tr v-if="pet.animalState ==='send'">
-              <td>健康信息:</td>
-              <td>
-                <div v-if="pet.animalHealthInfo==null" style="display: inline-block;float: right">
-                  <el-tag type="danger">暂无健康信息</el-tag>
-                </div>
-                <div v-else-if="pet.animalHealthInfo!=null" style="display: inline-block;float: right">
-                  <el-tag class="ml5" v-if="pet.animalHealthInfo.sterilization=='False'"
-                          type="danger">未绝育
-                  </el-tag>
-                  <el-tag class="ml5" v-if="pet.animalHealthInfo.sterilization=='True'"
-                          type="success">已绝育
-                  </el-tag>
-                  <el-tag class="ml5" v-if="pet.animalHealthInfo.immune=='False'" type="danger">
-                    未免疫
-                  </el-tag>
-                  <el-tag class="ml5" v-if="pet.animalHealthInfo.immune=='True'" type="success">
-                    已免疫
-                  </el-tag>
-                  <el-tag class="ml5" v-if="pet.animalHealthInfo.desinsectization=='False'"
-                          type="danger">未驱虫
-                  </el-tag>
-                  <el-tag class="ml5" v-if="pet.animalHealthInfo.desinsectization=='True'"
-                          type="success">已驱虫
-                  </el-tag>
-                </div>
-              </td>
-            </tr>
-            <tr style="height: 20px"></tr>
-            <tr>
-              <td>宠物描述:</td>
-              <td>{{ pet.description }}</td>
-            </tr>
-          </table>
-        </div>
-        <div class="content-right">
-          <el-card shadow="never">
-            <table>
+        <el-row>
+          <!-- 图片 -->
+          <el-col :span="9">
+            <div v-for="item in pet.animalImgList">
+              <img :src="item.url" class="content-img">
+              <!--                <div class="block text-center">-->
+              <!--                  <span class="demonstration">Motion blur the switch (default)</span>-->
+              <!--                  <el-carousel height="200px" motion-blur>-->
+              <!--                    <el-carousel-item v-for="item in pet.animalImgList" :key="item">-->
+              <!--                      <h3 class="small justify-center" text="2xl">{{ item.url }}</h3>-->
+              <!--                    </el-carousel-item>-->
+              <!--                  </el-carousel>-->
+              <!--                </div>-->
+            </div>
+          </el-col>
+          <!-- 宠物信息 -->
+          <el-col :span="9">
+            <table class="content-center">
               <tr>
+                <td>年龄</td>
+                <td>{{ pet.age }} 岁</td>
+              </tr>
+              <tr style="height: 20px"></tr>
+              <tr>
+                <td>性别</td>
                 <td>
-                  <p class="opera-button" v-if="!isCollection" @click="addCollection">
-                    <el-icon>
-                      <Star />
-                    </el-icon>
-                    收藏
-                  </p>
-                  <p class="opera-button" v-if="isCollection" @click="deleteCollection">
-                    <el-icon>
-                      <StarFilled />
-                    </el-icon>
-                    取消收藏
-                  </p>
+                  {{ pet.gender === 'man' ? '男' : '女' }}
                 </td>
               </tr>
               <tr style="height: 20px"></tr>
               <tr>
-                <td v-if="pet.animalState ==='send'">
-                  <p class="opera-button" v-if="!isAdopt">
-                    <el-icon>
-                      <House />
-                    </el-icon>
-                    收养
-                  </p>
-                  <p class="opera-button" v-if="isAdopt">
-                    <el-icon>
-                      <HomeFilled />
-                    </el-icon>
-                    收养
-                  </p>
-                </td>
-                <td v-if="pet.animalState ==='search'">
-                  <p class="opera-button" v-if="!isAdopt">
-                    <el-icon>
-                      <House />
-                    </el-icon>
-                    寻得宠物
-                  </p>
-                  <p class="opera-button" v-if="isAdopt">
-                    <el-icon>
-                      <HomeFilled />
-                    </el-icon>
-                    消息勘误
-                  </p>
+                <td>品种</td>
+                <td>{{ pet.species }}</td>
+              </tr>
+              <tr style="height: 20px"></tr>
+              <tr>
+                <td>地区:</td>
+                <td>{{ pet.province }} - {{ pet.city }}</td>
+              </tr>
+              <tr style="height: 20px"></tr>
+              <tr v-if="pet.animalState ==='search'">
+                <el-tag type="primary">RMB:{{ pet.reward }}</el-tag>
+              </tr>
+              <tr v-if="pet.animalState ==='send'">
+                <td>领养后需要打卡:</td>
+                <td>{{ pet.needCardNum }}</td>
+              </tr>
+              <tr style="height: 20px"></tr>
+              <tr v-if="pet.animalState ==='send'">
+                <td>健康信息:</td>
+                <td>
+                  <div v-if="pet.animalHealthInfo==null" style="display: inline-block;float: right">
+                    <el-tag type="danger">暂无健康信息</el-tag>
+                  </div>
+                  <div v-else-if="pet.animalHealthInfo!=null" style="display: inline-block;float: right">
+                    <el-tag class="ml5" v-if="pet.animalHealthInfo.sterilization=='False'"
+                            type="danger">未绝育
+                    </el-tag>
+                    <el-tag class="ml5" v-if="pet.animalHealthInfo.sterilization=='True'"
+                            type="success">已绝育
+                    </el-tag>
+                    <el-tag class="ml5" v-if="pet.animalHealthInfo.immune=='False'" type="danger">
+                      未免疫
+                    </el-tag>
+                    <el-tag class="ml5" v-if="pet.animalHealthInfo.immune=='True'" type="success">
+                      已免疫
+                    </el-tag>
+                    <el-tag class="ml5" v-if="pet.animalHealthInfo.desinsectization=='False'"
+                            type="danger">未驱虫
+                    </el-tag>
+                    <el-tag class="ml5" v-if="pet.animalHealthInfo.desinsectization=='True'"
+                            type="success">已驱虫
+                    </el-tag>
+                  </div>
                 </td>
               </tr>
               <tr style="height: 20px"></tr>
               <tr>
-                <td>
-                  <p class="opera-button">
-                    <el-icon>
-                      <ChatSquare />
-                    </el-icon>
-                    与主人对话
-                  </p>
-                </td>
+                <td>宠物描述:</td>
+                <td>{{ pet.description }}</td>
               </tr>
             </table>
-          </el-card>
-
-        </div>
+          </el-col>
+          <!--操作部分-->
+          <el-col :span="6">
+            <el-card style="text-align: center" shadow="never">
+              <table>
+                <tr>
+                  <td>
+                    <p class="opera-button" v-if="!isCollection" @click="addCollection">
+                      <el-icon>
+                        <Star/>
+                      </el-icon>
+                      收藏
+                    </p>
+                    <p class="opera-button" v-if="isCollection" @click="deleteCollection">
+                      <el-icon>
+                        <StarFilled/>
+                      </el-icon>
+                      取消收藏
+                    </p>
+                  </td>
+                </tr>
+                <tr style="height: 20px"></tr>
+                <tr>
+                  <td v-if="pet.animalState ==='send'">
+                    <p class="opera-button" v-if="!isAdopt">
+                      <el-icon>
+                        <House/>
+                      </el-icon>
+                      收养
+                    </p>
+                    <p class="opera-button" v-if="isAdopt">
+                      <el-icon>
+                        <HomeFilled/>
+                      </el-icon>
+                      收养
+                    </p>
+                  </td>
+                  <td v-if="pet.animalState ==='search'">
+                    <p class="opera-button" v-if="!isAdopt">
+                      <el-icon>
+                        <House/>
+                      </el-icon>
+                      寻得宠物
+                    </p>
+                    <p class="opera-button" v-if="isAdopt">
+                      <el-icon>
+                        <HomeFilled/>
+                      </el-icon>
+                      消息勘误
+                    </p>
+                  </td>
+                </tr>
+                <tr style="height: 20px"></tr>
+                <tr>
+                  <td>
+                    <p class="opera-button">
+                      <el-icon>
+                        <ChatSquare/>
+                      </el-icon>
+                      与主人对话
+                    </p>
+                  </td>
+                </tr>
+              </table>
+            </el-card>
+          </el-col>
+        </el-row>
       </el-card>
+    </el-col>
+    <el-col :span="2"></el-col>
+  </el-row>
 
+  <!-- 评论 -->
+  <el-row style="margin-top: 20px">
+    <el-col :span="1"></el-col>
+    <el-col :span="22">
       <el-card style="margin-top: 30px;min-height: 300px">
         <div v-if="reviewList.length === 0">
           暂无评论信息
         </div>
         <el-card body-style="none" class="review" v-for="item in reviewList" :key="item.id" shadow="never">
-          <div  class="review-image-div" style="text-align: center">
+          <div class="review-image-div" style="text-align: center">
             <div class="block">
-              <el-avatar :size="40" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png" />
+              <el-avatar :size="40" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"/>
             </div>
-<!--            <img class="review-image"-->
-<!--                 src="https://iknow-pic.cdn.bcebos.com/a8773912b31bb0513302abb2247adab44aede002" alt="">-->
             <div>{{ item.username }}</div>
           </div>
           <div class="review-personReview">
@@ -184,20 +188,19 @@
         </el-card>
 
       </el-card>
-
-
-    </div>
-  </div>
+    </el-col>
+    <el-col :span="1"></el-col>
+  </el-row>
 
 </template>
 
 <script>
 import axiosInstance from '@/http/httpUtil.js'
-import { ElMessage } from 'element-plus'
+import {ElMessage} from 'element-plus'
 
 
 export default {
-  data: function() {
+  data: function () {
     return {
       pet_id: 0,
       pet: {},
@@ -231,10 +234,10 @@ export default {
 
   },
   methods: {
-    addComment: function() {
+    addComment: function () {
       let userId = localStorage.getItem('userId')
       if (!userId) {
-        this.$router.push({ name: 'user_login' })
+        this.$router.push({name: 'user_login'})
         return
       }
       if (this.comment.comment == undefined || this.comment.comment.length == 0 || this.comment.comment.length > 50) {
@@ -248,12 +251,12 @@ export default {
             message: '评论已发布！',
             type: 'success'
           })
-          this.reviewList.unshift({ comment: this.comment.comment, username: localStorage.getItem('userName') })
+          this.reviewList.unshift({comment: this.comment.comment, username: localStorage.getItem('userName')})
           this.comment.comment = ''
         }
       })
     },
-    addCollection: function() {
+    addCollection: function () {
       let userId = localStorage.getItem('userId')
       let petId = this.pet.id
       let params = {
@@ -272,7 +275,7 @@ export default {
         }
       })
     },
-    deleteCollection: function() {
+    deleteCollection: function () {
       let userId = localStorage.getItem('userId')
       let petId = this.pet.id
       let params = {
@@ -321,7 +324,6 @@ export default {
   height: 600px;
   background: rgba(0, 0, 0, 0.1);
   display: inline-block;
-  margin-left: 50px;
 }
 
 .content-center table {

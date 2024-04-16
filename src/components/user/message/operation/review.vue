@@ -2,7 +2,7 @@
   <div class="review">
     <el-card class="review-info" v-for="item in reviewList">
       <div class="block" style="float: left;">
-        <el-avatar :size="40" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png" />
+        <el-avatar :size="40" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"/>
       </div>
       <div style="float: left;margin-left: 30px;">
         <div>
@@ -46,7 +46,7 @@ export default {
 
 .review-info {
   height: 80px;
-  width: 90%;
+  width: 95%;
   margin-left: 30px;
   margin-top: 10px;
   float: left;
