@@ -83,7 +83,6 @@ export default {
 .content {
   width: 1500px;
   height: 700px;
-  background: rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(0, 0, 0, 0.2);
 }
 

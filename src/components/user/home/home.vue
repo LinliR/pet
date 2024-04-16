@@ -2,7 +2,7 @@
   <carousel></carousel>
 
 
-  <div>
+  <div style="margin-left: 10%;">
     <h1>热门宠物</h1>
     <el-card class="pet-content" v-for="animal in hotAnimalArray" :key="animal.id" @click="petInfo(animal)">
       <template #header>
@@ -24,7 +24,7 @@
     </el-card>
   </div>
 
-  <div>
+  <div style="margin-left: 10%;">
     <h1 style="margin-top: 30px">热门迷失的小精灵</h1>
     <el-card class="pet-content" v-for="findData in hotSearchAnimalArray" :key="findData.id" @click="petInfo(findData)">
       <template #header>

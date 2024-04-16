@@ -163,10 +163,13 @@
         <div v-if="reviewList.length === 0">
           暂无评论信息
         </div>
-        <el-card class="review" v-for="item in reviewList" :key="item.id" shadow="never">
-          <div class="review-image-div" style="text-align: center">
-            <img class="review-image"
-                 src="https://iknow-pic.cdn.bcebos.com/a8773912b31bb0513302abb2247adab44aede002" alt="">
+        <el-card body-style="none" class="review" v-for="item in reviewList" :key="item.id" shadow="never">
+          <div  class="review-image-div" style="text-align: center">
+            <div class="block">
+              <el-avatar :size="40" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png" />
+            </div>
+<!--            <img class="review-image"-->
+<!--                 src="https://iknow-pic.cdn.bcebos.com/a8773912b31bb0513302abb2247adab44aede002" alt="">-->
             <div>{{ item.username }}</div>
           </div>
           <div class="review-personReview">
@@ -356,8 +359,7 @@ export default {
 }
 
 .review {
-  height: 100px;
-  background: rgba(0, 0, 0, 0.1);
+  height: 120px;
   margin-top: 10px;
 }
 

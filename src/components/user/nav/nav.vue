@@ -37,7 +37,7 @@ export default {
           router: 'adopt'
         },
         {
-          name: '送养',
+          name: '寻宠',
           router: 'find'
         }
       ],
