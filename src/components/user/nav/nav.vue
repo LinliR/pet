@@ -1,90 +1,93 @@
 <template>
-  <div class="nav-header">
-    <div class="nav-center">
-
+  <el-row gutter="20" class="nav-header">
+    <el-col :span="2"></el-col>
+    <el-col :span="20">
       <div class="nav_left">
-        <router-link class="link-button" :to="nav.router" v-for="nav in nav_left">
+        <router-link :to="nav.router" v-for="nav in nav_left" @click="changeNowOpera(nav)"
+                     :class="nowOpera == nav.router ? 'link-button click_opera' : 'link-button'">
           {{ nav.name }}
         </router-link>
       </div>
-
       <div class="nav_right">
-        <div class="link-button" v-for="nav in nav_right" @click="routerPush(nav)">
+        <div v-for="nav in nav_right" @click="routerPush(nav)"
+             :class="nowOpera == nav.router ? 'link-button click_opera' : 'link-button'">
           {{ nav.router === 'center' && userName !== null ? userName : nav.name }}
         </div>
       </div>
-
-    </div>
-  </div>
-  <div>
-
-  </div>
+    </el-col>
+    <el-col :span="2"></el-col>
+  </el-row>
 
 </template>
 
 <script>
+import login from '../login.vue'
+
 export default {
-  name: "user-nav",
-  data: function () {
+  name: 'user-nav',
+  data: function() {
     return {
       nav_left: [
         {
-          name: "首页",
-          router: "home"
+          name: '首页',
+          router: 'home'
         },
         {
-          name: "领养",
-          router: "adopt"
+          name: '领养',
+          router: 'adopt'
         },
         {
-          name: "送养",
-          router: "find"
+          name: '送养',
+          router: 'find'
         }
       ],
       nav_right: [
         {
-          name: "用户",
-          router: "center"
+          name: '用户',
+          router: 'center'
         },
         {
-          name: "消息",
-          router: "message"
+          name: '消息',
+          router: 'message'
         },
         {
-          name: "收藏",
-          router: "collection"
+          name: '收藏',
+          router: 'collection'
         },
         {
-          name: "发布",
-          router: "publish"
+          name: '发布',
+          router: 'publish'
         }
       ],
-      userName: localStorage.getItem("userName")
+      userName: localStorage.getItem('userName'),
+      nowOpera: ''
     }
   },
   methods: {
-    routerPush: function (nav) {
-      var userId = localStorage.getItem("userId");
+    routerPush: function(nav) {
+      var userId = localStorage.getItem('userId')
       if (!userId) {
         this.$router.push({
-          name: "user_login",
+          name: 'user_login'
         })
-        return;
+        return
       }
 
       this.$router.push(nav.router)
+      this.changeNowOpera(nav)
+    },
+    changeNowOpera: function(nav) {
+      let routher = nav.router
+      this.nowOpera = routher
     }
-  },
+  }
 }
 </script>
 
 <style scoped>
 .nav-header {
   height: 50px;
-  line-height: 50px;
   border-bottom: 1px solid #eee;
-  //background: rgba(0, 0, 0, 0.1);
-  width: 100%;
 }
 
 .nav-center {
@@ -102,10 +105,15 @@ export default {
 
 .link-button {
   margin-left: 10px;
+  margin-top: 10px;
   text-decoration: none;
   font-size: 18px;
   color: black;
-  font-weight: bolder;
   display: inline-block;
+  cursor: pointer;
+}
+
+.click_opera {
+  color: #409EFF;
 }
 </style>

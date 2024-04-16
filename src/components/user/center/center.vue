@@ -35,24 +35,25 @@
 </template>
 
 <script>
-import {ElMessage} from "element-plus";
-import axiosInstance from "@/http/httpUtil.js";
+import { ElMessage } from 'element-plus'
+import axiosInstance from '@/http/httpUtil.js'
 
 export default {
-  name: "center",
+  name: 'center',
   methods: {
-    loginOut: function () {
-      var userId = localStorage.getItem("userId");
+    loginOut: function() {
+      var userId = localStorage.getItem('userId')
       if (userId) {
-        let url = "/user/logOut/" + userId;
+        let url = '/user/logOut/' + userId
         axiosInstance.delete(url).then(res => {
           if (res.code === 200) {
             ElMessage({
               message: '登出成功！',
-              type: 'success',
+              type: 'success'
             })
-            localStorage.removeItem("userId");
-            this.$router.push("home")
+            localStorage.removeItem('userId')
+            localStorage.removeItem('userName')
+            this.$router.push('home')
           }
         })
       }

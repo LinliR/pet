@@ -19,7 +19,7 @@
           <el-tag v-if="animal.animalHealthInfo.desinsectization=='True'" type="success">已驱虫</el-tag>
         </div>
       </template>
-      <img :src="animal.animalImgList[0].url" height="200px" width="320px"/>
+      <img :src="animal.animalImgList[0].url" height="200px" width="320px" />
       <p style="margin-top: 6px;float: right">{{ animal.province }}{{ animal.city }}</p>
     </el-card>
   </div>
@@ -35,15 +35,15 @@
           </div>
         </div>
       </template>
-      <img :src="findData.imgSrc" height="200px" width="320px"/>
+      <img :src="findData.imgSrc" height="200px" width="320px" />
       <p style="margin-top: 6px;float: right">{{ findData.province }}{{ findData.city }}</p>
     </el-card>
   </div>
 </template>
 
 <script>
-import carousel from './carousel.vue';
-import {inject, onMounted, reactive} from 'vue';
+import carousel from './carousel.vue'
+import { inject, onMounted, reactive } from 'vue'
 
 export default {
   components: {
@@ -51,67 +51,67 @@ export default {
   },
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'home',
-  data: function () {
+  data: function() {
     return {
       carousel: [
         {
-          "index": "adopterRule",
-          "name": "领养须知"
+          'index': 'adopterRule',
+          'name': '领养须知'
         },
         {
-          "index": "findRule",
-          "name": "寻宠须知"
+          'index': 'findRule',
+          'name': '寻宠须知'
         },
         {
-          "index": "downloadFile",
-          "name": "领养协议"
+          'index': 'downloadFile',
+          'name': '领养协议'
         }
       ]
     }
   },
   setup() {
-    const axios = inject('axios'); // 注入axios实例
-    const hotAnimalArray = reactive([]);
-    const hotSearchAnimalArray = reactive([]);
+    const axios = inject('axios') // 注入axios实例
+    const hotAnimalArray = reactive([])
+    const hotSearchAnimalArray = reactive([])
     onMounted(
-        () => {
-          axios.getData('animalInfo/hotAnimal').then(res => {
-            console.log(res)
-            if (res.code == 200) {
-              for (let i = 0; i < res.data.length; i++) {
-                hotAnimalArray.push(res.data[i]);
-              }
+      () => {
+        axios.getData('animalInfo/hotAnimal').then(res => {
+          console.log(res)
+          if (res.code == 200) {
+            for (let i = 0; i < res.data.length; i++) {
+              hotAnimalArray.push(res.data[i])
             }
-            console.log(hotAnimalArray)
-          });
-          axios.getData('animalInfo/hotSearchAnimal').then(res => {
-            if (res.code == 200) {
-              for (let i = 0; i < res.data.length; i++) {
-                hotSearchAnimalArray.push(res.data[i]);
-              }
+          }
+          console.log(hotAnimalArray)
+        })
+        axios.getData('animalInfo/hotSearchAnimal').then(res => {
+          if (res.code == 200) {
+            for (let i = 0; i < res.data.length; i++) {
+              hotSearchAnimalArray.push(res.data[i])
             }
-          })
-        }
-    );
+          }
+        })
+      }
+    )
 
     return {
       hotAnimalArray,
       hotSearchAnimalArray
-    };
+    }
 
   },
-  methods:{
-    petInfo:function(obj) {
+  methods: {
+    petInfo: function(obj) {
 
-      let id = obj.id;
+      let id = obj.id
       console.log(obj)
       this.$router.push({
-        path:"/userPet",
-        query:{id:id}
-      });
+        path: '/userPet',
+        query: { id: id }
+      })
     }
   }
-};
+}
 </script>
 
 <style scoped>
