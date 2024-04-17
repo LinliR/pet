@@ -1,34 +1,39 @@
 <template>
-  <div class="example-pagination-block">
-    <el-table :data="userList" border stripe style="width: 1500px;margin-top: 30px;margin-left: 5%;">
-      <el-table-column prop="account" label="账号" width="180" />
-      <el-table-column prop="userName" label="用户名" width="180" />
-      <el-table-column prop="tel" label="手机号" width="180" />
-      <el-table-column prop="address" label="地址" width="180" />
-      <el-table-column prop="email" label="邮件" width="180" />
-      <el-table-column prop="signature" label="个性签名" width="180" />
-      <el-table-column prop="userType" label="用户类型" width="180" />
+  <el-row style="margin-top: 20px">
+    <el-col :span = "2"></el-col>
+    <el-col :span = "20">
+      <el-table :data="userList" border stripe style="width: 1500px;margin-top: 30px;margin-left: 5%;">
+        <el-table-column prop="account" label="账号" width="180" />
+        <el-table-column prop="userName" label="用户名" width="180" />
+        <el-table-column prop="tel" label="手机号" width="180" />
+        <el-table-column prop="address" label="地址" width="180" />
+        <el-table-column prop="email" label="邮件" width="180" />
+        <el-table-column prop="signature" label="个性签名" width="180" />
+        <el-table-column prop="userType" label="用户类型" width="180" />
 
-      <el-table-column label="Operations">
-        <template #default="scope">
-          <el-button size="small" @click="handleEdit(scope.$index, scope.row)"
-          >修改密码
-          </el-button
-          >
-          <el-button
-            size="small"
-            type="danger"
-            @click="handleDelete(scope.$index, scope.row)"
-          >删除
-          </el-button
-          >
-        </template>
-      </el-table-column>
-    </el-table>
+        <el-table-column label="Operations">
+          <template #default="scope">
+            <el-button size="small" @click="handleEdit(scope.$index, scope.row)"
+            >修改密码
+            </el-button
+            >
+            <el-button
+                size="small"
+                type="danger"
+                @click="handleDelete(scope.$index, scope.row)"
+            >删除
+            </el-button
+            >
+          </template>
+        </el-table-column>
+      </el-table>
+      <div style="margin-top: 30px;width: 100%">
+        <el-pagination style="margin-left: 40%" @current-change="loadData" v-model:current-page="current" layout="prev, pager, next" :total="total.valueOf()" />
+      </div>
+    </el-col>
+    <el-col :spam = "20"></el-col>
+  </el-row>
 
-    <el-pagination @current-change="loadData" v-model:current-page="current" layout="prev, pager, next"
-                   :total="total.valueOf()" />
-  </div>
 </template>
 
 <script>

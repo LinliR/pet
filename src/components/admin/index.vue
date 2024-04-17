@@ -10,7 +10,7 @@
     <div style="margin-left: 10%"></div>
     <el-menu-item index="userManage">普通用户</el-menu-item>
     <el-menu-item index="pet">动物信息</el-menu-item>
-    <el-menu-item index="adoptFeel">收养心得信息</el-menu-item>
+    <el-menu-item index="reviewManage">评论管理</el-menu-item>
     <div  style="margin-top:17px;float: right;display: inline-block;margin-left: 50%;">
       宠物收养管理系统
     </div>

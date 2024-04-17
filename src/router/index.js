@@ -115,9 +115,9 @@ const router = createRouter({
                     component: () => import("../components/admin/menu/pet.vue"),
                 },
                 {
-                    path: '/adoptFeel',
-                    name: 'adoptFeel',
-                    component: () => import("../components/admin/menu/adoptFeel.vue"),
+                    path: '/reviewManage',
+                    name: 'reviewManage',
+                    component: () => import("../components/admin/menu/reviewManage.vue"),
                 },
             ]
         }
