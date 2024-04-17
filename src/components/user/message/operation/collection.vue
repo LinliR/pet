@@ -1,37 +1,54 @@
 <template>
-  <div class="review" >
-    <div class="review-info" v-for="item in 15">
-      <img src="" style="background: rgba(0,0,0,0.1);width: 50px;height:50px;float: left" />
-      <div style="float: left;">
+  <div class="review">
+    <el-card class="review-info" v-for="item in collectionList">
+      <div class="block" style="float: left;">
+        <el-avatar :size="40" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"/>
+      </div>
+      <div style="float: left;margin-left: 30px;">
         <div>
-          userName
+          {{ item.userName }}
         </div>
         <div style="margin-left: 50px;">
-          收藏了 xxx 宠物
+          收藏了：{{ item.animalName }}
         </div>
       </div>
-      <img src="" style="background: rgba(0,0,0,0.1);width: 50px;height:50px;float: right" />
-    </div>
+      <img :src="item.animalImgUrl" style="background: rgba(0,0,0,0.1);width: 50px;height:50px;float: right"/>
+    </el-card>
   </div>
 
 </template>
 
 <script>
+import httpUtil from "@/http/httpUtil.js";
+
 export default {
   name: 'collection',
+  data: function () {
+    return {
+      collectionList: []
+    }
+  },
+  created() {
+    let url = "/collecanimals/getCollectionInMessageList";
+    httpUtil.get(url).then(res => {
+      if (res.code == 200) {
+        this.collectionList = res.data;
+      }
+    })
+  }
 }
 </script>
 
 <style scoped>
-.review{
+.review {
   height: 300px;
 }
-.review-info{
-  height: 54px;
-  width: 80%;
+
+.review-info {
+  height: 80px;
+  width: 95%;
   margin-left: 30px;
   margin-top: 10px;
-  background: rgba(0,0,0,0.1);
   float: left;
 }
 </style>

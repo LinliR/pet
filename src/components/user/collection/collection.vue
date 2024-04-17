@@ -2,7 +2,7 @@
   <el-row>
     <el-col :span="2"></el-col>
     <el-col :span="20">
-      <h1>我的宠物</h1>
+      <h1>收藏宠物</h1>
       <el-card class="pet-content" v-for="animal in hotAnimalArray" :key="animal.id" @click="petInfo(animal)">
         <template #header>
           {{ animal.name }}
@@ -21,8 +21,11 @@
         <img :src="animal.animalImgList[0].url" height="200px" width="320px"/>
         <p style="margin-top: 6px;float: right">{{ animal.province }}{{ animal.city }}</p>
       </el-card>
+      <div style="margin-top: 30px;width: 100%">
+        <el-pagination style="margin-left: 40%" @current-change="loadData" v-model:current-page="current" layout="prev, pager, next" :total="total.valueOf()" />
+      </div>
 
-      <h1 style="margin-top: 30px">我的遗宠</h1>
+      <h1 style="margin-top: 30px">收藏寻宠</h1>
       <el-card class="pet-content" v-for="findData in hotSearchAnimalArray" :key="findData.id"
                @click="petInfo(findData)">
         <template #header>
@@ -36,6 +39,9 @@
         <img :src="findData.imgSrc" height="200px" width="320px"/>
         <p style="margin-top: 6px;float: right">{{ findData.province }}{{ findData.city }}</p>
       </el-card>
+      <div style="margin-top: 30px;width: 100%">
+        <el-pagination style="margin-left: 40%" @current-change="loadData" v-model:current-page="current" layout="prev, pager, next" :total="total.valueOf()" />
+      </div>
     </el-col>
     <el-col :span="2"></el-col>
   </el-row>
@@ -48,7 +54,15 @@ export default {
   data(){
     return{
       hotAnimalArray:[],
-      hotSearchAnimalArray:[]
+      hotSearchAnimalArray:[],
+      current :1 ,
+      pageSize:10,
+      total:0,
+    }
+  },
+  methods:{
+    loadData:function (){
+
     }
   },
   mounted() {
