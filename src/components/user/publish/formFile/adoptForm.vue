@@ -44,9 +44,6 @@
         <el-input style="margin-left: 10px; width: 100px" v-model="formData.city" placeholder="市"/>
       </el-form-item>
       <div style="margin-left: 30px;"></div>
-      <el-form-item label="领养后需要打卡">
-        <el-input v-model="formData.needCardNum"/>
-      </el-form-item>
     </el-form-item>
 
     <el-form-item label="宠物描述">
@@ -106,7 +103,6 @@ export default {
             dialogImageUrl.value = uploadFile.url!
                 dialogVisible.value = true
         }
-
         return{
             handleRemove,
             handlePictureCardPreview,

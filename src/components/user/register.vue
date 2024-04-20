@@ -1,5 +1,5 @@
 <template>
-    <el-dialog v-model="top" style="width: 800px;height: 358px" :before-close="closeFun">
+    <el-dialog v-model="top" style="width: 800px;height: 438px" :before-close="closeFun">
         <div>
             <h1>注册新用户</h1>
             <el-form :model="loginData" style="margin-top: 20px;margin-left: 10px" label-position="left">
@@ -27,6 +27,11 @@
                     <el-form-item label="地址" class="ml20px">
                         <el-input v-model="loginData.address" class="login-input"/>
                     </el-form-item>
+                </el-form-item>
+
+                <el-form-item label="验证码">
+                        <el-input v-model="loginData.tel"  class="login-input"/>
+                    <el-button type="success" @click="register" >点我获取验证码</el-button>
                 </el-form-item>
 
                 <el-form-item label="个性签名">

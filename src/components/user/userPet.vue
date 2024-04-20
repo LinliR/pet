@@ -50,10 +50,7 @@
               <tr v-if="pet.animalState ==='search'">
                 <el-tag type="primary">RMB:{{ pet.reward }}</el-tag>
               </tr>
-              <tr v-if="pet.animalState ==='send'">
-                <td>领养后需要打卡:</td>
-                <td>{{ pet.needCardNum }}</td>
-              </tr>
+
               <tr style="height: 20px"></tr>
               <tr v-if="pet.animalState ==='send'">
                 <td>健康信息:</td>
@@ -144,7 +141,7 @@
                 <tr style="height: 20px"></tr>
                 <tr>
                   <td>
-                    <p class="opera-button">
+                    <p class="opera-button" @click="triggerParentFunction">
                       <el-icon>
                         <ChatSquare/>
                       </el-icon>
@@ -200,6 +197,7 @@ import {ElMessage} from 'element-plus'
 
 
 export default {
+
   data: function () {
     return {
       pet_id: 0,

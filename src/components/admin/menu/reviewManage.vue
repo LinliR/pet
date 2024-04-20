@@ -7,8 +7,7 @@
       <el-table :data="tableData" border stripe style="width: 1500px;margin-top: 30px;margin-left: 5%;">
         <el-table-column prop="petName" label="宠物" width="180" />
         <el-table-column prop="userName" label="发布者" width="180" />
-        <el-table-column prop="adoptName" label="收养人" width="180" />
-        <el-table-column prop="review" label="收养心得" width="180" />
+        <el-table-column prop="review" label="内容" width="580" />
 
         <el-table-column label="Operations">
           <template #default="scope">

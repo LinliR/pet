@@ -3,7 +3,7 @@
     <el-col :span="2"></el-col>
     <el-col :span="20">
       <h1>收藏宠物</h1>
-      <el-card class="pet-content" v-for="animal in hotAnimalArray" :key="animal.id" @click="petInfo(animal)">
+      <el-card class="pet-content" v-for="animal in collectionList" :key="animal.id" @click="petInfo(animal)">
         <template #header>
           {{ animal.name }}
           <div v-if="animal.animalHealthInfo==null" style="display: inline-block;float: right">
@@ -53,7 +53,7 @@ import httpUtil from "@/http/httpUtil.js";
 export default {
   data(){
     return{
-      hotAnimalArray:[],
+        collectionList:[],
       hotSearchAnimalArray:[],
       current :1 ,
       pageSize:10,
@@ -66,11 +66,11 @@ export default {
     }
   },
   mounted() {
-    httpUtil.getData('animalInfo/hotAnimal').then(res => {
+    httpUtil.getData('collecanimals/getCollectionList').then(res => {
       console.log(res)
       if (res.code == 200) {
         for (let i = 0; i < res.data.length; i++) {
-          this.hotAnimalArray.push(res.data[i])
+          this.collectionList .push(res.data[i])
         }
       }
     })
