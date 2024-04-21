@@ -17,7 +17,7 @@
       :before-close="handleClose"
       size="70%"
   >
-    <dialogue></dialogue>
+    <dialogue ref="childRef"></dialogue>
   </el-drawer>
 </template>
 
@@ -35,7 +35,13 @@ export default {
     return {
       isDialogueFlag: false
     }
-  }
+  },
+    methods:{
+        handleClose:function () {
+            this.$refs.childRef.handleClose();
+            this.isDialogueFlag=false;
+        }
+    }
 
 
 }
