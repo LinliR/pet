@@ -141,11 +141,20 @@
                 <tr style="height: 20px"></tr>
                 <tr>
                   <td>
-                    <p class="opera-button" @click="triggerParentFunction">
+                    <p class="opera-button" @click="dialogueFun(pet)">
                       <el-icon>
                         <ChatSquare/>
                       </el-icon>
                       与主人对话
+                      <el-drawer
+                          v-model="isDialogueFlag"
+                          title="对话消息"
+                          :direction="direction"
+                          :before-close="handleClose"
+                          size="70%"
+                      >
+                        <dialogue ref="childRef"></dialogue>
+                      </el-drawer>
                     </p>
                   </td>
                 </tr>
@@ -194,9 +203,11 @@
 <script>
 import axiosInstance from '@/http/httpUtil.js'
 import {ElMessage} from 'element-plus'
+import dialogue from "@/components/user/message/operation/dialogue.vue";
 
 
 export default {
+  components: {dialogue},
 
   data: function () {
     return {
@@ -205,7 +216,8 @@ export default {
       isCollection: false,
       isAdopt: false,
       reviewList: [],
-      comment: {}
+      comment: {},
+      isDialogueFlag:false
     }
   },
   created() {
@@ -291,6 +303,10 @@ export default {
           this.isCollection = false
         }
       })
+    },
+    dialogueFun:function (pet){
+      localStorage.setItem("dialogueUserId", pet.modifier);
+      this.isDialogueFlag = true;
     }
   }
 }
