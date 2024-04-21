@@ -13,10 +13,6 @@
 
         <el-table-column label="Operations">
           <template #default="scope">
-            <el-button size="small" @click="handleEdit(scope.$index, scope.row)"
-            >修改密码
-            </el-button
-            >
             <el-button
                 size="small"
                 type="danger"
@@ -104,6 +100,7 @@ export default {
 
     },
     handleDelete: function(index, row) {
+        debugger
       let url = 'admin/deleteUser/' + row.id
       http.delete(url).then(res => {
         if (res.code == 200) {

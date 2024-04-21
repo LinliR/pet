@@ -37,18 +37,6 @@ export default {
   data:function (){
     return{
       tableData:[
-        {
-          "userName":"li",
-          "adoptName":"Jerry",
-          "petName":"支竹",
-          "review" : "dasdasdasdausvd"
-        },
-        {
-          "userName":"chen",
-          "adoptName":"Tom",
-          "petName":"懒懒",
-          "review":"2024-02-05 14:22:11 dasdas ",
-        },
       ],
       current :1 ,
       pageSize:10,

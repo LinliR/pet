@@ -15,8 +15,8 @@
         <img :src="animal.animalImgList[0].url" height="180px" width="320px"/>
         <template #footer>
           <div style="float: right">
-            <el-button type="success">审核</el-button>
-            <el-button type="danger">驳回</el-button>
+            <el-button v-if="animal.state=='0'" @click="approvalAnimal(animal)" type="success">审核</el-button>
+            <el-button v-if="animal.state=='0'" @click="reject(animal)" type="danger">驳回</el-button>
           </div>
         </template>
       </el-card>
@@ -31,6 +31,7 @@
 
 <script >
 import httpUtil from "@/http/httpUtil.js";
+import {ElMessage} from 'element-plus'
 
 export default {
   data:function (){
@@ -66,6 +67,7 @@ export default {
       current :1 ,
       pageSize:10,
       total:0,
+        rowData:{}
     }
   },
   methods:{
@@ -74,7 +76,7 @@ export default {
     }
   },
   mounted() {
-    httpUtil.getData('animalInfo/hotAnimal').then(res => {
+    httpUtil.getData('admin/animalList').then(res => {
       console.log(res)
       if (res.code == 200) {
         for (let i = 0; i < res.data.length; i++) {
@@ -89,7 +91,34 @@ export default {
         }
       }
     })
-  }
+  },
+    approvalAnimal:function (animal) {
+      httpUtil.putData("admin/approvalAnimal/"+animal.id).then(res =>{
+          if (res.code==200){
+              ElMessage({
+                  message: '审核成功！',
+                  type: 'success',
+              })
+              animal.state='1';
+          }else {
+              ElMessage.error("审核失败！")
+          }
+      })
+
+    },
+    reject:function (animal){
+      httpUtil.putData("admin/rejectAnimal/"+animal.id).then(res =>{
+          if (res.code==200){
+              ElMessage({
+                  message: '驳回成功！',
+                  type: 'success',
+              })
+              animal.state='-1';
+          }else {
+              ElMessage.error("驳回失败！")
+          }
+      })
+    }
 }
 </script>0
 

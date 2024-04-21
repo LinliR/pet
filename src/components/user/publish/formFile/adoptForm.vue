@@ -126,6 +126,7 @@ export default {
             }
             animalInfo.animalHealthInfo=animalHealthInfo;
             animalInfo.animalState='send';
+            animalInfo.state=0;
             animalInfo.animalImgList=this.fileList;
             http.post("animalInfo/add",animalInfo).then(res =>{
                 if (res.code==200){
