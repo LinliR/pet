@@ -76,6 +76,11 @@ import {ElMessage} from 'element-plus'
 
 export default {
   name: 'dialogue',
+  computed: {
+    dropDownRef() {
+      return this.$refs.dropDownRef;
+    },
+  },
   data: function () {
     return {
       userList: [],
@@ -84,15 +89,13 @@ export default {
       sendMsg: {content: ""},
       recipientsId: "",
       pullMessageTrigger: null,
-      dropDownRef: null
 
     }
   },
   mounted() {
     this.load();
     this.initAndTrigger();
-
-
+    this.scrollToBottom()
   },
   methods: {
     load: function () {
@@ -131,14 +134,6 @@ export default {
       this.pullMessageTrigger = setInterval(() => {
         let message = {recipientsId: this.recipientsId, addresserId: localStorage.getItem("userId")};
         this.autoLoadUserMsg(message);
-          var messageContent = this.$el.querySelector('#messageContent');
-          messageContent.scrollTop = messageContent.scrollHeight;
-
-        if (this.dropdownRef) {
-          this.dropdownRef.scrollTop = this.dropdownRef.scrollHeight;
-        }
-
-
       }, 2000)
     },
     autoLoadUserMsg: function (message) {
@@ -158,8 +153,14 @@ export default {
       httpUtil.getData(url).then(res => {
         if (res.code == 200) {
           this.messageList = res.data;
+          this.scrollToBottom()
         }
       })
+    },
+    scrollToBottom() {
+      this.$nextTick(() => {
+        this.dropDownRef.scrollTop = this.dropDownRef.scrollHeight;
+      });
     },
     loadUserMsg: function (message) {
       console.log(message)

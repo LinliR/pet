@@ -12,12 +12,12 @@
             <el-tag type="danger">暂无健康信息</el-tag>
           </div>
           <div v-else-if="animal.animalHealthInfo!=null" style="display: inline-block;float: right">
-            <el-tag v-if="animal.animalHealthInfo.sterilization=='False'" type="danger">未绝育</el-tag>
-            <el-tag v-if="animal.animalHealthInfo.sterilization=='True'" type="success">已绝育</el-tag>
-            <el-tag v-if="animal.animalHealthInfo.immune=='False'" type="danger">未免疫</el-tag>
-            <el-tag v-if="animal.animalHealthInfo.immune=='True'" type="success">已免疫</el-tag>
-            <el-tag v-if="animal.animalHealthInfo.desinsectization=='False'" type="danger">未驱虫</el-tag>
-            <el-tag v-if="animal.animalHealthInfo.desinsectization=='True'" type="success">已驱虫</el-tag>
+            <el-tag class="ml5" v-if="animal.animalHealthInfo.sterilization=='False'" type="danger">未绝育</el-tag>
+            <el-tag class="ml5" v-if="animal.animalHealthInfo.sterilization=='True'" type="success">已绝育</el-tag>
+            <el-tag class="ml5" v-if="animal.animalHealthInfo.immune=='False'" type="danger">未免疫</el-tag>
+            <el-tag class="ml5" v-if="animal.animalHealthInfo.immune=='True'" type="success">已免疫</el-tag>
+            <el-tag class="ml5" v-if="animal.animalHealthInfo.desinsectization=='False'" type="danger">未驱虫</el-tag>
+            <el-tag class="ml5" v-if="animal.animalHealthInfo.desinsectization=='True'" type="success">已驱虫</el-tag>
           </div>
         </template>
         <img :src="animal.animalImgList[0].url" height="200px" width="320px"/>
@@ -146,5 +146,8 @@ export default {
 .tag {
   margin-left: 5px;
   float: left;
+}
+.ml5{
+  margin-left: 5px;
 }
 </style>
