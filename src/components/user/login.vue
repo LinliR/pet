@@ -1,22 +1,28 @@
 <template>
-    <el-dialog v-model="top" style="width: 1000px;height: 300px" :before-close="closeFun">
+    <el-dialog v-model="top" style="width: 460px;height: 300px" :before-close="closeFun">
+      <h1>登录</h1>
+      <el-row>
+        <el-col :span="1"></el-col>
+        <el-col :span="22">
+          <el-form :model="loginData" style="margin-top: 20px;margin-left: 10px">
+            <el-form-item label="账号">
+              <el-input v-model="loginData.account" class="login-input"/>
+            </el-form-item>
+            <el-form-item label="密码">
+              <el-input type="password" v-model="loginData.password" class="login-input"/>
+            </el-form-item>
+            <el-form-item style="float:right">
+              <el-button type="primary" @click="loginCommit">提交</el-button>
+              <span @click="transRegister()" class="register" >注册新用户</span>
+            </el-form-item>
+          </el-form>
+        </el-col>
+        <el-col :span="1"></el-col>
+      </el-row>
         <div>
-            <h1>登录</h1>
 
-            <el-form :model="loginData" style="margin-top: 20px;margin-left: 10px">
-                <el-form-item label="账号">
-                    <el-input v-model="loginData.account" class="login-input"/>
-                </el-form-item>
-                <el-form-item label="密码">
-                    <el-input type="password" v-model="loginData.password" class="login-input"/>
-                </el-form-item>
-                <el-form-item style="">
-                    <el-button type="primary" @click="loginCommit">提交</el-button>
-                    <span @click="transRegister()">
-            注册新用户
-          </span>
-                </el-form-item>
-            </el-form>
+
+
         </div>
 
 
@@ -78,5 +84,13 @@ export default {
 
 .login-input {
     width: 300px;
+}
+.register{
+  color: darkgrey;
+  margin-left:10px;
+  cursor: pointer
+}
+.register:hover{
+  text-decoration: underline;
 }
 </style>

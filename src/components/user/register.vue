@@ -31,7 +31,7 @@
 
                 <el-form-item label="验证码">
                         <el-input v-model="loginData.tel"  class="login-input"/>
-                    <el-button type="success" @click="register" >点我获取验证码</el-button>
+                    <el-button type="success" @click="register" style="margin-left: 20px;" >点我获取验证码</el-button>
                 </el-form-item>
 
                 <el-form-item label="个性签名">
