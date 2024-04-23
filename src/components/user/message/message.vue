@@ -17,6 +17,9 @@
       <div v-if="collectionFlag">
         <collection></collection>
       </div>
+      <div v-if="adoptApplyFlag">
+        <adoptApply></adoptApply>
+      </div>
       <div v-if="dialogueFlag">
         <dialogue></dialogue>
       </div>
@@ -29,39 +32,46 @@
 import review from "./operation/review.vue";
 import Collection from "./operation/collection.vue";
 import Dialogue from "@/components/user/message/operation/dialogue.vue";
+import adoptApply from '@/components/user/message/operation/adoptApply.vue'
 
 export default {
   components: {
     Dialogue,
     Collection,
     review,
+    adoptApply
   },
   data: function () {
     return {
-      nav :[
+      nav: [
         {
-          name:'宠物相关评论',
-          router:'review'
+          name: '宠物相关评论',
+          router: 'review'
         },
         {
-          name:'宠物相关收藏',
-          router:'collection'
+          name: '宠物相关收藏',
+          router: 'collection'
         },
         {
-          name:'消息对话',
-          router:'dialogue'
+          name: '领养申请',
+          router: 'adoptApply'
+        },
+        {
+          name: '消息对话',
+          router: 'dialogue'
         }
       ],
-      reviewFlag :false,
-      collectionFlag:false,
-      dialogueFlag:false,
+      reviewFlag: false,
+      collectionFlag: false,
+      adoptApplyFlag: false,
+      dialogueFlag: false,
     }
   },
-  methods:{
-    showView:function (item) {
-      console.log(item)
+  methods: {
+    showView: function (item) {
       this.reviewFlag = false;
       this.collectionFlag = false;
+      this.adoptApplyFlag = false;
       this.dialogueFlag = false
       switch (item.router) {
         case 'review':
@@ -69,6 +79,9 @@ export default {
           break
         case 'collection':
           this.collectionFlag = true;
+          break
+        case 'adoptApply':
+          this.adoptApplyFlag = true;
           break
         case 'dialogue' :
           this.dialogueFlag = true;

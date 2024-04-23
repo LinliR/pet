@@ -110,17 +110,29 @@
                 <tr style="height: 20px"></tr>
                 <tr>
                   <td v-if="pet.animalState ==='send'">
-                    <p class="opera-button" v-if="!isAdopt">
+                    <p class="opera-button" v-if="isAdopt===false" @click="addAdopt">
                       <el-icon>
                         <House/>
                       </el-icon>
                       收养
                     </p>
-                    <p class="opera-button" v-if="isAdopt">
+                    <p class="opera-button" v-if="isAdopt==='Applying'">
                       <el-icon>
                         <HomeFilled/>
                       </el-icon>
-                      收养
+                      申请收养中....
+                    </p>
+                    <p class="opera-button" v-if="isAdopt==='OTHER_PASS'">
+                      <el-icon>
+                        <HomeFilled/>
+                      </el-icon>
+                      已被其他人收养....
+                    </p>
+                    <p class="opera-button" v-if="isAdopt==='REJECT'" @click="adoptAgain">
+                      <el-icon>
+                        <HomeFilled/>
+                      </el-icon>
+                      申请收养被拒绝....
                     </p>
                   </td>
                   <td v-if="pet.animalState ==='search'">
@@ -217,7 +229,7 @@ export default {
       isAdopt: false,
       reviewList: [],
       comment: {},
-      isDialogueFlag:false
+      isDialogueFlag: false
     }
   },
   created() {
@@ -236,6 +248,13 @@ export default {
         axiosInstance.get(collectionUrl).then(res => {
           if (res.code === 200) {
             this.isCollection = res.data
+          }
+        });
+        let adoptUrl = 'animalAdoption/getState/' + this.pet.id
+        axiosInstance.get(adoptUrl).then(res => {
+          if (res.code === 200) {
+            console.log(res.data)
+            this.isAdopt = res.data
           }
         })
       }
@@ -304,7 +323,41 @@ export default {
         }
       })
     },
-    dialogueFun:function (pet){
+    addAdopt: function () {
+      let petId = this.pet.id
+      let params = {
+        animalId: petId
+      }
+
+      let url = 'animalAdoption/add'
+      axiosInstance.post(url, params).then(res => {
+        if (res.code == 200) {
+          ElMessage({
+            message: '申请送养成功',
+            type: 'success'
+          })
+          this.isAdopt = "Applying"
+        }
+      })
+    },
+    adoptAgain: function () {
+      let petId = this.pet.id
+      let params = {
+        animalId: petId
+      }
+
+      let url = 'animalAdoption/adoptAgain' + "/" + petId;
+      axiosInstance.post(url, params).then(res => {
+        if (res.code == 200) {
+          ElMessage({
+            message: '申请送养成功',
+            type: 'success'
+          })
+          this.isAdopt = "Applying"
+        }
+      })
+    },
+    dialogueFun: function (pet) {
       localStorage.setItem("dialogueUserId", pet.modifier);
       this.isDialogueFlag = true;
     }
