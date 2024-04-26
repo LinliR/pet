@@ -55,35 +55,11 @@
 
             <el-col :span="6">
               <div style="float: left;">
-                星球：
+                  名字：
               </div>
               <div style="float: left;">
-                <el-select
-                  v-model="province"
-                  placeholder="请选择宠物种类"
-                  size="large"
-                  style="width: 200px"
-                >
-                  <el-option
-                    v-for="item in petTypes"
-                    :key="item"
-                    :label="item"
-                    :value="item"
-                  />
-                </el-select>
+                  <el-input v-model="name" class="login-input"/>
               </div>
-            </el-col>
-
-            <el-col :span="6">
-              <div style="float: left;">
-                性别：
-              </div>
-              <div style="float: left;">
-                <el-checkbox-group v-model="sexs" size="small">
-                  <el-checkbox :label="sex.name" value="Value1" v-for="sex in sexs" :key="sex.name" border />
-                </el-checkbox-group>
-              </div>
-
             </el-col>
 
             <el-col :span="6">
@@ -91,9 +67,12 @@
                 年龄：
               </div>
               <div style="float: left;">
-                <el-input style="width: 200px" />
+                <el-input v-model="age" style="width: 200px" />
               </div>
             </el-col>
+              <el-col :span="6">
+                  <el-button @click="search()" type="primary">查询</el-button>
+              </el-col>
           </el-row>
         </template>
         <div>
@@ -146,44 +125,27 @@ export default {
         '北京', '天津', '江西', '陕西', '山东', '甘肃', '河北', '山西', '河南', '青海', '湖北', '宁夏', '内蒙古', '辽宁', '吉林', '湖南', '广东', '广西', '黑龙江', '上海', '江苏', '浙江', '安徽', '福建', '海南', '重庆', '四川', '贵州', '云南', '西藏', '新疆', '香港', '澳门', '台湾'
       ],
       province: '',
-      petTypes: [
-        {
-          name: '喵星人'
-        },
-        {
-          name: '汪星人'
-        },
-        {
-          name: '鸟儿'
-        }
-      ],
-      sexs:
-        [
-          {
-            name: '男'
-          },
-          {
-            name: '女'
-          }
-        ],
-      age:
-        2,
+      name:'',
+      age:'',
       hot_image_url:
         '1',
       hot_list: [],
       petList: [],
       current: 1,
-      pageSize: 8,
+      pageSize: 9,
       pageCount: 0,
       total: 100
     }
   },
   methods: {
+      search:function (){
+          this.getList();
+      },
     hotImageChange: function(obj) {
       this.hot_image_url = obj.url
     },
     getList: function() {
-      let url = 'animalInfo/getSendAnimalInfoList/' + this.current + '/' + this.pageSize
+      let url = 'animalInfo/getSendAnimalInfoList/' + this.current + '/' + this.pageSize+`?name=${this.name}&province=${this.province}&age=${this.age}`;
       httpUtil.get(url).then(res => {
         if (res.code == 200) {
           let data = res.data.records
