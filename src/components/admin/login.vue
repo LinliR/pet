@@ -14,7 +14,7 @@
                 <el-input type="password" v-model="loginData.loginPassword" class="login-input"/>
               </el-form-item>
               <el-form-item style="float: right;margin-right: 50px;margin-top: 30px;">
-                <el-button type="primary" @click="loginCommit">提交</el-button>
+                <el-button type="primary" @click="loginCommit">登录</el-button>
               </el-form-item>
 
             </el-form>

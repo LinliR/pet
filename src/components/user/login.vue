@@ -12,7 +12,7 @@
               <el-input type="password" v-model="loginData.password" class="login-input"/>
             </el-form-item>
             <el-form-item style="float:right">
-              <el-button type="primary" @click="loginCommit">提交</el-button>
+              <el-button type="primary" @click="loginCommit">登录</el-button>
               <span @click="transRegister()" class="register" >注册新用户</span>
             </el-form-item>
           </el-form>
