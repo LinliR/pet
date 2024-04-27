@@ -32,7 +32,7 @@
         <el-carousel height="180px" width="320px" >
           <el-carousel-item v-for="item in animal.animalImgList" :key="item">
             <h3 class="small justify-center" text="2xl">
-              <el-image  :src="item.url?item.url :'http://localhost:8080/defaultImg.jpg'" >
+              <el-image  :src="item.url?item.url :'http://localhost:8080/defaultImg.jpg'"  >
                 <template #error>
                   <el-image  style="height: 200px;width:280px"  src='http://localhost:8080/defaultImg.jpg'></el-image>
                 </template>
@@ -47,10 +47,11 @@
                 <el-button v-if="animal.animalState!='send'" disabled type="success">寻宠</el-button>
             </div>
           <div style="float: right">
-              <el-button v-if="animal.state=='1'" disabled type="success">已发布</el-button>
-              <el-button v-if="animal.state=='-1'" @click="reject(animal)" type="danger">已驳回</el-button>
-              <el-button v-if="animal.state=='0'" @click="approvalAnimal(animal)" type="success">审核</el-button>
-            <el-button v-if="animal.state=='0'" @click="reject(animal)" type="danger">驳回</el-button>
+              <el-button v-if="animal.state=='1' || animal.animalState!='send'" disabled type="success">已发布</el-button>
+              <el-button v-if="animal.state=='-1' && animal.animalState=='send'" @click="reject(animal)" type="danger">已驳回</el-button>
+              <el-button v-if="animal.state=='0' && animal.animalState=='send'" @click="approvalAnimal(animal)" type="success">审核</el-button>
+            <el-button v-if="animal.state=='0' && animal.animalState=='send'" @click="reject(animal)" type="danger">驳回</el-button>
+
           </div>
         </template>
       </el-card>
@@ -72,7 +73,7 @@ export default {
     return{
       animalList :[],
       current :1 ,
-      pageSize:8,
+      pageSize:9,
       total:0,
         rowData:{}
     }

@@ -53,7 +53,7 @@ export default {
             this.$router.push('register');
         },
         closeFun: function () {
-            this.$router.back();
+            this.$router.push('/home');
         },
         loginCommit: function () {
             let loginForm = this.loginData
@@ -67,7 +67,7 @@ export default {
                     let data = res.data;
                     localStorage.setItem("userId", data.id);
                     localStorage.setItem("userName", data.userName);
-                    this.$router.back();
+                    this.$router.push("/home");
                 } else {
                     ElMessage.error(res.message);
                 }

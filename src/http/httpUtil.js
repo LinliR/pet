@@ -38,9 +38,8 @@ axiosInstance.interceptors.response.use(
 
         switch (error.response.status) {
             case non_login:
-                router.replace({
-                    path: '/',
-                    query: {redirect: router.currentRoute.fullPath}
+                router.push({
+                    name: 'user_login'
                 });
                 break
             case non_find:

@@ -59,8 +59,10 @@
 <!--        <img :src="animal.animalImgList[0] ? animal.animalImgList[0].url : ''" height="200px" width="320px"/>-->
         <p style="margin-top: 6px;float: left">{{ animal.province }}{{ animal.city }}</p>
         <div style="margin-top: 6px;float: right">
-          <el-button v-if="animal.state === 0" type="danger" style="height: 26px" @click="deletePet(animal)">删除
+          <el-button v-if="animal.state != 0" type="danger" style="height: 26px" @click="deletePet(animal)">删除
           </el-button>
+            <el-button v-if="animal.state != 2" type="danger" style="height: 26px" @click.stop="updatePet(animal,'/adoptCommit')">编辑
+            </el-button>
         </div>
       </el-card>
       <div style="margin-top: 30px;text-align: center;">
@@ -80,14 +82,14 @@
             </div>
           </div>
         </template>
-        <el-image style="height: 200px;width:280px" height="200px" :src="findData.animalImgList[0] ? animal.animalImgList[0].url : 'http://localhost:8080/defaultImg.jpg'">
+        <el-image style="height: 200px;width:280px" height="200px" :src="findData.animalImgList[0] ? findData.animalImgList[0].url : 'http://localhost:8080/defaultImg.jpg'">
           <template #error>
             <el-image  style="height: 200px;width:280px"  src='http://localhost:8080/defaultImg.jpg'></el-image>
           </template>
         </el-image>
         <p style="margin-top: 6px;float: left">{{ findData.province }}{{ findData.city }}</p>
         <div style="margin-top: 6px;float: right">
-          <el-button v-if="findData.state === 0" type="danger" style="height: 26px" @click="deletePet(findData)">删除
+          <el-button  type="danger" style="height: 26px" @click="deletePet(findData)">删除
           </el-button>
         </div>
       </el-card>
@@ -279,6 +281,13 @@ export default {
         }
       })
     },
+      updatePet: function (animal,path) {
+          let animalStr = JSON.stringify(animal);
+          this.$router.push({
+              path: path,
+              query: {animal: animalStr}
+          })
+      },
     getMySendPet: function () {
       let url = 'animalInfo/getMySendAnimal/' + this.current + '/' + this.pageAnimalSize
       httpUtil.getData(url).then(res => {
