@@ -42,7 +42,7 @@
             </div>
           </div>
         </template>
-        <el-image style="height: 200px;width:280px" height="200px" :src="findData.animalImgList[0] ? animal.animalImgList[0].url : 'http://localhost:8080/defaultImg.jpg'">
+        <el-image style="height: 200px;width:280px" height="200px" :src="findData.animalImgList[0] ? findData.animalImgList[0].url : 'http://localhost:8080/defaultImg.jpg'">
           <template #error>
             <el-image  style="height: 200px;width:280px"  src='http://localhost:8080/defaultImg.jpg'></el-image>
           </template>
