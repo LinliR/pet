@@ -1,13 +1,12 @@
-
 <template>
   <el-form :model="formData" style="margin-left:20px;margin-top: 30px;">
 
     <el-form-item>
       <el-form-item label="宠物名">
-        <el-input v-model="formData.name" />
+        <el-input v-model="formData.name"/>
       </el-form-item>
       <el-form-item label="年龄" style="margin-left: 20px;">
-        <el-input v-model="formData.age" />
+        <el-input v-model="formData.age"/>
       </el-form-item>
 
       <el-form-item label="性别" style="margin-left: 20px;">
@@ -20,7 +19,7 @@
 
     <el-form-item>
       <el-form-item label="品种">
-        <el-input v-model="formData.species" />
+        <el-input v-model="formData.species"/>
       </el-form-item>
       <el-form-item label="走失区域" style="margin-left: 20px;">
         <el-input style="margin-left: 10px; width: 100px" v-model="formData.province" placeholder="省"/>
@@ -30,16 +29,18 @@
 
     <el-form-item>
       <el-form-item label="悬赏价格">
-        <el-input v-model="formData.reward" />
+        <el-input v-model="formData.reward"/>
       </el-form-item>
     </el-form-item>
 
     <el-form-item label="详情">
-      <el-input type="textarea" v-model="formData.description" />
+      <el-input type="textarea" v-model="formData.description"/>
     </el-form-item>
 
     <el-form-item label="图片">
-      <el-icon><Plus /></el-icon>
+      <el-icon>
+        <Plus/>
+      </el-icon>
     </el-form-item>
 
     <el-form-item style="float: right;margin-right: 50px;margin-top: 30px;">
@@ -57,28 +58,33 @@ import http from "@/http/httpUtil.js";
 import {ElMessage} from "element-plus";
 
 export default {
-    setup(){
-        const formData=reactive({})
-        return{
-            formData
-        }
-    },
-    methods:{
-        submitAnimalInfo(){
-            let animalInfo=JSON.parse(JSON.stringify(this.formData));
-            animalInfo.animalState='search';
-            http.post("animalInfo/add",animalInfo).then(res =>{
-                if (res.code==200){
-                    ElMessage({
-                        message: '发布寻宠信息成功！',
-                        type: 'success',
-                    })
-                }else {
-                    ElMessage.error("发布寻宠信息失败！")
-                }
-            })
-        }
+  setup() {
+    const formData = reactive({})
+    return {
+      formData
     }
+  },
+  methods: {
+    submitAnimalInfo() {
+      let animalInfo = JSON.parse(JSON.stringify(this.formData));
+      animalInfo.animalState = 'search';
+      http.post("animalInfo/add", animalInfo).then(res => {
+        if (res.code == 200) {
+          ElMessage({
+            message: '发布寻宠信息成功！',
+            type: 'success',
+          })
+          let id = res.data.id;
+          this.$router.push({
+            path: "/userPet",
+            query: {id: id}
+          });
+        } else {
+          ElMessage.error("发布寻宠信息失败！")
+        }
+      })
+    }
+  }
 }
 
 </script>
