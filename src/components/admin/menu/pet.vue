@@ -29,7 +29,18 @@
                 </el-tag>
             </div>
         </template>
-        <img :src="animal.animalImgList ? '':animal.animalImgList[0].url" height="180px" width="320px"/>
+        <el-carousel height="180px" width="320px" >
+          <el-carousel-item v-for="item in animal.animalImgList" :key="item">
+            <h3 class="small justify-center" text="2xl">
+              <el-image  :src="item.url?item.url :'http://localhost:8080/defaultImg.jpg'" >
+                <template #error>
+                  <el-image  style="height: 200px;width:280px"  src='http://localhost:8080/defaultImg.jpg'></el-image>
+                </template>
+              </el-image>
+            </h3>
+          </el-carousel-item>
+        </el-carousel>
+<!--        <img :src="animal.animalImgList ? '':animal.animalImgList[0].url" height="180px" width="320px"/>-->
         <template #footer>
             <div style="float: left">
                 <el-button v-if="animal.animalState=='send'" disabled type="success">送养</el-button>
@@ -61,7 +72,7 @@ export default {
     return{
       animalList :[],
       current :1 ,
-      pageSize:9,
+      pageSize:8,
       total:0,
         rowData:{}
     }
