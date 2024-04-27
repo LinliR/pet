@@ -12,7 +12,11 @@
           评论了：{{ item.comment }}
         </div>
       </div>
-      <img :src="item.animalImgUrl" style="background: rgba(0,0,0,0.1);width: 50px;height:50px;float: right"/>
+      <el-image style="height: 50px;width:50px;float: right" :src="item.animalImgUrl ? item.animalImgUrl : 'http://localhost:8080/defaultImg.jpg'">
+        <template #error>
+          <el-image  style="height: 50px;width:50px;float: right"  src='http://localhost:8080/defaultImg.jpg'></el-image>
+        </template>
+      </el-image>
     </el-card>
   </div>
 
