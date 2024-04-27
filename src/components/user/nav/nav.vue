@@ -11,7 +11,7 @@
       <div class="nav_right">
         <div v-for="nav in nav_right" @click="routerPush(nav)"
              :class="nowOpera == nav.router ? 'link-button click_opera' : 'link-button'">
-          {{ nav.router === 'center' && userName !== null ? userName : nav.name }}
+          {{ nav.name }}
         </div>
       </div>
     </el-col>
@@ -43,7 +43,7 @@ export default {
       ],
       nav_right: [
         {
-          name: '用户',
+          name: '用户中心',
           router: 'center'
         },
         {
