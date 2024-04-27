@@ -6,7 +6,7 @@
                 <el-input v-model="formData.name"/>
             </el-form-item>
             <el-form-item label="年龄" style="margin-left: 20px;">
-                <el-input v-model="formData.age"/>
+                <el-input type="number" v-model="formData.age"/>
             </el-form-item>
 
             <el-form-item label="性别" style="margin-left: 20px;">

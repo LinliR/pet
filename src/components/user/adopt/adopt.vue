@@ -71,7 +71,7 @@
                 年龄：
               </div>
               <div style="float: left;">
-                <el-input v-model="age" style="width: 200px" />
+                <el-input type="number" v-model="age" style="width: 200px" />
               </div>
             </el-col>
               <el-col :span="6">

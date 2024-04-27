@@ -51,6 +51,7 @@ export default {
           let url='admin/adminLogin/'+loginForm.loginName+'/'+loginForm.loginPassword;
           http.getData(url).then(res =>{
               if (res.code==200){
+                  localStorage.setItem("userId",res.data.id)
                   this.$router.push('adminIndex');
               }else {
                   ElMessage.error("登录失败！，请重新输入账号密码");
