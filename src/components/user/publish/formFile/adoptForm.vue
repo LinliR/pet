@@ -47,23 +47,25 @@
     </el-form-item>
 
     <el-form-item label="宠物描述">
-      <el-input type="textarea" v-model="formData.description" style="width: 600px;" />
+      <el-input type="textarea" v-model="formData.description" style="width: 600px;"/>
     </el-form-item>
 
     <el-form-item label="图片">
-        <el-upload
-                v-model:file-list="fileList"
-                action="http://localhost:8080/img/upload"
-                list-type="picture-card"
-                :on-preview="handlePictureCardPreview"
-                :on-remove="handleRemove"
-        >
-            <el-icon><Plus /></el-icon>
-        </el-upload>
+      <el-upload
+          v-model:file-list="fileList"
+          action="http://localhost:8080/img/upload"
+          list-type="picture-card"
+          :on-preview="handlePictureCardPreview"
+          :on-remove="handleRemove"
+      >
+        <el-icon>
+          <Plus/>
+        </el-icon>
+      </el-upload>
 
-        <el-dialog v-model="dialogVisible">
-            <img w-full :src="dialogImageUrl" alt="Preview Image" />
-        </el-dialog>
+      <el-dialog v-model="dialogVisible">
+        <img w-full :src="dialogImageUrl" alt="Preview Image"/>
+      </el-dialog>
     </el-form-item>
 
     <el-form-item style="float: right;margin-right: 50px;margin-top: 30px;">
@@ -77,74 +79,81 @@
 <script lang="ts">
 import {reactive} from 'vue'
 import http from '../../../../http/httpUtil.js'
-import { ElMessage } from 'element-plus'
-import { ref } from 'vue'
-import { Plus } from '@element-plus/icons-vue'
+import {ElMessage} from 'element-plus'
+import {ref} from 'vue'
+import {Plus} from '@element-plus/icons-vue'
 
-import { UploadProps, UploadUserFile } from 'element-plus'
+import {UploadProps, UploadUserFile} from 'element-plus'
 
 export default {
 
 
-    setup(){
-        const formData=reactive({})
+  setup() {
+    const formData = reactive({})
 
-        const fileList = ref<UploadUserFile[]>([
-        ])
+    const fileList = ref<UploadUserFile[]>([])
 
-        const dialogImageUrl = ref('')
-        const dialogVisible = ref(false)
+    const dialogImageUrl = ref('')
+    const dialogVisible = ref(false)
 
-        const handleRemove: UploadProps['onRemove'] = (uploadFile, uploadFiles) => {
-            console.log(uploadFile, uploadFiles)
-        }
-
-        const handlePictureCardPreview: UploadProps['onPreview'] = (uploadFile) => {
-            dialogImageUrl.value = uploadFile.url!
-                dialogVisible.value = true
-        }
-        return{
-            handleRemove,
-            handlePictureCardPreview,
-            fileList,
-            formData
-        }
-    },
-    methods:{
-        submitAnimalInfo(){
-            let animalInfo=JSON.parse(JSON.stringify(this.formData));
-
-            let animalHealthInfo={sterilization:"False",immune:"False",desinsectization:"False"};
-            if (this.formData.animalHealthInfo.length>0) {
-
-                if (this.formData.animalHealthInfo.includes("sterilization"))
-                    animalHealthInfo.sterilization = "True";
-                if (this.formData.animalHealthInfo.includes("immune"))
-                    animalHealthInfo.immune = "True";
-                if (this.formData.animalHealthInfo.includes("desinsectization"))
-                    animalHealthInfo.desinsectization = "True";
-            }
-            animalInfo.animalHealthInfo=animalHealthInfo;
-            animalInfo.animalState='send';
-            animalInfo.state=0;
-            animalInfo.animalImgList=this.fileList;
-            http.post("animalInfo/add",animalInfo).then(res =>{
-                if (res.code==200){
-                    ElMessage({
-                        message: '保存动物信息成功！',
-                        type: 'success',
-                    })
-                  let id = res.data.id;
-                  this.$router.push({
-                    path:"/userPet",
-                    query:{id:id}
-                  });
-                }else {
-                    ElMessage.error("保存动物信息失败！")
-                }
-            })
-        }
+    const handleRemove: UploadProps['onRemove'] = (uploadFile, uploadFiles) => {
+      console.log(uploadFile, uploadFiles)
     }
+
+    const handlePictureCardPreview: UploadProps['onPreview'] = (uploadFile) => {
+      dialogImageUrl.value = uploadFile.url!
+      dialogVisible.value = true
+    }
+    return {
+      handleRemove,
+      handlePictureCardPreview,
+      fileList,
+      formData
+    }
+  },
+  methods: {
+    submitAnimalInfo() {
+      let animalInfo = JSON.parse(JSON.stringify(this.formData));
+
+      let animalHealthInfo = {sterilization: "False", immune: "False", desinsectization: "False"};
+      if (this.formData.animalHealthInfo.length > 0) {
+
+        if (this.formData.animalHealthInfo.includes("sterilization"))
+          animalHealthInfo.sterilization = "True";
+        if (this.formData.animalHealthInfo.includes("immune"))
+          animalHealthInfo.immune = "True";
+        if (this.formData.animalHealthInfo.includes("desinsectization"))
+          animalHealthInfo.desinsectization = "True";
+      }
+      animalInfo.animalHealthInfo = animalHealthInfo;
+      animalInfo.animalState = 'send';
+      animalInfo.state = 0;
+      let animalImgList = [];
+      this.fileList.forEach((file) => {
+        console.log(file.response.data.url)
+        let img = {url: ''};
+        img.url = file.response.data.url;
+        animalImgList.push(img);
+      })
+      animalInfo.animalImgList = animalImgList;
+
+      http.post("animalInfo/add", animalInfo).then(res => {
+        if (res.code == 200) {
+          ElMessage({
+            message: '保存动物信息成功！',
+            type: 'success',
+          })
+          let id = res.data.id;
+          this.$router.push({
+            path: "/userPet",
+            query: {id: id}
+          });
+        } else {
+          ElMessage.error("保存动物信息失败！")
+        }
+      })
+    }
+  }
 }
 
 </script>

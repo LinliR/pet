@@ -9,19 +9,21 @@
         </template>
         <el-row>
           <!-- 图片 -->
-          <el-col :span="9">
-            <div v-for="item in pet.animalImgList">
-              <img :src="item.url" class="content-img">
-              <!--                <div class="block text-center">-->
-              <!--                  <span class="demonstration">Motion blur the switch (default)</span>-->
-              <!--                  <el-carousel height="200px" motion-blur>-->
-              <!--                    <el-carousel-item v-for="item in pet.animalImgList" :key="item">-->
-              <!--                      <h3 class="small justify-center" text="2xl">{{ item.url }}</h3>-->
-              <!--                    </el-carousel-item>-->
-              <!--                  </el-carousel>-->
-              <!--                </div>-->
+          <el-col :span="8">
+            <div>
+              <!--              <img :src="item.url" class="content-img">-->
+              <div class="block text-center" style="margin-top: 100px;">
+                <el-carousel height="300px" motion-blur>
+                  <el-carousel-item v-for="item in pet.animalImgList" :key="item">
+                    <h3 class="small justify-center" text="2xl">
+                      <el-image  :src="item.url"  />
+                    </h3>
+                  </el-carousel-item>
+                </el-carousel>
+              </div>
             </div>
           </el-col>
+          <el-col :span="1"></el-col>
           <!-- 宠物信息 -->
           <el-col :span="9">
             <table class="content-center">
