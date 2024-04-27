@@ -8,7 +8,11 @@
         <el-col :span="18">
           <el-main>
             <div>
-              <img style="margin: 0px;width: 100%;height: 250px" src="@/assert/images/3.jpg" />
+              <el-image style="width: 100%;height: 260px" :src="hot_image_url ? hot_image_url : 'http://localhost:8080/defaultImg.jpg'">
+                <template #error>
+                  <el-image  style="width: 100%;height: 260px"  src='http://localhost:8080/defaultImg.jpg'></el-image>
+                </template>
+              </el-image>
             </div>
           </el-main>
         </el-col>
@@ -92,7 +96,11 @@
                   <el-tag v-if="animal.animalHealthInfo.desinsectization=='True'" type="success">已驱虫</el-tag>
                 </div>
               </template>
-              <img src="@/assert/images/8.jpeg" height="200px" width="320px" />
+              <el-image style="height: 200px;width:280px" height="200px" :src="animal.animalImgList[0] ? animal.animalImgList[0].url : 'http://localhost:8080/defaultImg.jpg'">
+                <template #error>
+                  <el-image  style="height: 200px;width:280px"  src='http://localhost:8080/defaultImg.jpg'></el-image>
+                </template>
+              </el-image>
               <p style="margin-top: 6px;float: right">{{ animal.province }}{{ animal.city }}</p>
             </el-card>
           </div>

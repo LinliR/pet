@@ -8,7 +8,11 @@
         <el-col :span="18">
           <el-main>
             <div>
-              <img style="margin: 0px;width: 100%;height: 250px" :src=" hot_image_url" />
+              <el-image style="width: 100%;height: 260px" :src="hot_image_url ? hot_image_url : 'http://localhost:8080/defaultImg.jpg'">
+                <template #error>
+                  <el-image  style="width: 100%;height: 260px"  src='http://localhost:8080/defaultImg.jpg'></el-image>
+                </template>
+              </el-image>
             </div>
           </el-main>
         </el-col>
@@ -92,7 +96,11 @@
                   <el-tag v-if="animal.animalHealthInfo.desinsectization=='True'" type="success">已驱虫</el-tag>
                 </div>
               </template>
-              <img :src="animal.animalImgList[0] ? animal.animalImgList[0].url : ''" height="200px" width="320px" />
+              <el-image style="height: 200px;width:280px" height="200px" :src="animal.animalImgList[0] ? animal.animalImgList[0].url : 'http://localhost:8080/defaultImg.jpg'">
+                <template #error>
+                  <el-image  style="height: 200px;width:280px"  src='http://localhost:8080/defaultImg.jpg'></el-image>
+                </template>
+              </el-image>
               <p style="margin-top: 6px;float: right">{{ animal.province }}{{ animal.city }}</p>
             </el-card>
           </div>
@@ -171,7 +179,7 @@ export default {
         if (data.length > 3) {
           data = data.slice(0, 3)
         }
-        this.hot_image_url = data[0].animalImgList[0] ? data[0].animalImgList[0].url : ''
+        this.hot_image_url = data[0].animalImgList[0] ? data[0].animalImgList[0].url : 'http://localhost:8080/defaultImg.jpg'
         this.hot_list = data
       }
     })
