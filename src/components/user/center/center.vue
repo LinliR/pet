@@ -51,7 +51,12 @@
             <el-tag v-if="animal.animalHealthInfo.desinsectization=='True'" type="success">已驱虫</el-tag>
           </div>
         </template>
-        <img :src="animal.animalImgList[0] ? animal.animalImgList[0].url : ''" height="200px" width="320px"/>
+        <el-image style="height: 200px;width:280px" height="200px" :src="animal.animalImgList[0] ? animal.animalImgList[0].url : 'http://localhost:8080/defaultImg.jpg'">
+          <template #error>
+            <el-image  style="height: 200px;width:280px"  src='http://localhost:8080/defaultImg.jpg'></el-image>
+          </template>
+        </el-image>
+<!--        <img :src="animal.animalImgList[0] ? animal.animalImgList[0].url : ''" height="200px" width="320px"/>-->
         <p style="margin-top: 6px;float: left">{{ animal.province }}{{ animal.city }}</p>
         <div style="margin-top: 6px;float: right">
           <el-button v-if="animal.state === 0" type="danger" style="height: 26px" @click="deletePet(animal)">删除
@@ -75,7 +80,11 @@
             </div>
           </div>
         </template>
-        <img :src="findData.imgSrc" height="200px" width="320px"/>
+        <el-image style="height: 200px;width:280px" height="200px" :src="findData.animalImgList[0] ? animal.animalImgList[0].url : 'http://localhost:8080/defaultImg.jpg'">
+          <template #error>
+            <el-image  style="height: 200px;width:280px"  src='http://localhost:8080/defaultImg.jpg'></el-image>
+          </template>
+        </el-image>
         <p style="margin-top: 6px;float: left">{{ findData.province }}{{ findData.city }}</p>
         <div style="margin-top: 6px;float: right">
           <el-button v-if="findData.state === 0" type="danger" style="height: 26px" @click="deletePet(findData)">删除
