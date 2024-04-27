@@ -19,6 +19,8 @@
           </el-col>
           <el-col :span="6">
             <el-card>
+              <el-button type="primary" @click="editFlag = true">编辑</el-button>
+              <el-button type="warning" @click="pwdFlag = true">修改密码</el-button>
               <el-button type="danger" @click="loginOut()">登出</el-button>
             </el-card>
           </el-col>
@@ -34,7 +36,7 @@
     <el-col :span="2"></el-col>
     <el-col :span="20">
       <h1>我的宠物</h1>
-      <el-card class="pet-content" v-for="animal in hotAnimalArray" :key="animal.id" @click="petInfo(animal)">
+      <el-card class="pet-content" v-for="animal in sendAnimalArr" :key="animal.id" @click="petInfo(animal)">
         <template #header>
           {{ animal.name }}
           <div v-if="animal.animalHealthInfo==null" style="display: inline-block;float: right">
@@ -50,11 +52,19 @@
           </div>
         </template>
         <img :src="animal.animalImgList[0].url" height="200px" width="320px"/>
-        <p style="margin-top: 6px;float: right">{{ animal.province }}{{ animal.city }}</p>
+        <p style="margin-top: 6px;float: left">{{ animal.province }}{{ animal.city }}</p>
+        <div style="margin-top: 6px;float: right">
+          <el-button v-if="animal.state === 0" type="danger"  style="height: 26px" @click="deletePet(animal)">删除</el-button>
+        </div>
       </el-card>
+      <div style="margin-top: 30px;text-align: center;">
+        <el-pagination background @current-change="getMySendPet" :pageCount="sendAnimalCount"
+                       v-model:current-page="current"
+                       layout="prev, pager, next" :total="totalSend" style="margin-left: 40%;"/>
+      </div>
 
       <h1 style="margin-top: 30px">我的遗宠</h1>
-      <el-card class="pet-content" v-for="findData in hotSearchAnimalArray" :key="findData.id"
+      <el-card class="pet-content" v-for="findData in searchAnimalArr" :key="findData.id"
                @click="petInfo(findData)">
         <template #header>
           {{ findData.name }}
@@ -65,11 +75,85 @@
           </div>
         </template>
         <img :src="findData.imgSrc" height="200px" width="320px"/>
-        <p style="margin-top: 6px;float: right">{{ findData.province }}{{ findData.city }}</p>
+        <p style="margin-top: 6px;float: left">{{ findData.province }}{{ findData.city }}</p>
+        <div style="margin-top: 6px;float: right">
+          <el-button v-if="findData.state === 0" type="danger"  style="height: 26px" @click="deletePet(findData)">删除</el-button>
+        </div>
       </el-card>
+      <div style="margin-top: 30px;text-align: center;">
+        <el-pagination background @current-change="getMySearchPet" :pageCount="searchAnimalCount"
+                       v-model:current-page="currentSearch"
+                       layout="prev, pager, next" :total="totalSearch" style="margin-left: 40%;"/>
+
+      </div>
     </el-col>
     <el-col :span="2"></el-col>
   </el-row>
+
+
+  <el-dialog
+      v-model="editFlag"
+      title="Tips"
+      width="800"
+  >
+    <div>
+      <h1>编辑</h1>
+      <el-form :model="loginData" style="margin-top: 20px;margin-left: 10px" label-position="left">
+        <el-form-item>
+          <el-form-item label="账户名" class="ml20px">
+            <el-input v-model="loginData.account" class="login-input"/>
+          </el-form-item>
+          <el-form-item label="昵称" class="ml20px">
+            <el-input v-model="loginData.userName" class="login-input"/>
+          </el-form-item>
+        </el-form-item>
+        <el-form-item>
+          <el-form-item label="手机号" class="ml20px">
+            <el-input v-model="loginData.tel" :rules="phoneNumberRules" class="login-input"/>
+          </el-form-item>
+          <el-form-item label="邮件" class="ml20px">
+            <el-input v-model="loginData.email" class="login-input"/>
+          </el-form-item>
+        </el-form-item>
+        <el-form-item>
+
+          <el-form-item label="地址" class="ml20px">
+            <el-input v-model="loginData.address" class="login-input"/>
+          </el-form-item>
+        </el-form-item>
+
+        <el-form-item label="个性签名">
+          <el-input type="textarea" v-model="loginData.signature" class="login-input" style="width: 500px"/>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="success" @click="editCommit" style="margin-left: 670px;">编辑</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+  </el-dialog>
+
+  <el-dialog
+      v-model="pwdFlag"
+      title="修改密码"
+      width="400"
+  >
+    <div>
+      <el-form :model="pwd" style="margin-top: 20px;margin-left: 10px" label-position="left">
+        <el-form-item label="旧密码" class="ml20px">
+          <el-input v-model="pwd.oldPwd" class="login-input"/>
+        </el-form-item>
+        <el-form-item>
+          <el-form-item label="新密码" class="ml20px">
+            <el-input v-model="pwd.newPwd" class="login-input"/>
+          </el-form-item>
+        </el-form-item>
+
+        <el-form-item>
+          <el-button type="primary" @click="updatePwd" style="margin-left: 300px;">修改</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+  </el-dialog>
 </template>
 
 <script>
@@ -89,11 +173,70 @@ export default {
         address: "NewYork",
         signature: "afkosvhsidvbsdlycgaucvacuyguy"
       },
-      hotAnimalArray: [],
-      hotSearchAnimalArray: []
+      sendAnimalArr: [],
+      searchAnimalArr: [],
+      editFlag: false,
+      loginData: {},
+      pwd: {
+        oldPwd: '',
+        newPwd: ''
+      },
+      pwdFlag: false,
+      sendAnimalCount: 1,
+      current: 1,
+      totalSend: 0,
+      pageAnimalSize: 4,
+      totalAnimal: 0,
+      totalSearch:0,
+      currentSearch:1,
+      searchAnimalCount: 1,
+      pageAnimalSearchSize:4,
     }
   },
   methods: {
+    getData: function () {
+      var userId = localStorage.getItem('userId')
+      let url = "/user/get/" + userId;
+      httpUtil.get(url).then(res => {
+        if (res.code == 200) {
+          this.userData = res.data;
+          this.loginData = res.data;
+        }
+      });
+    },
+    editCommit: function () {
+      console.log(this.loginData)
+      let url = "user/modifyUserInfo";
+      let params = this.loginData;
+
+      httpUtil.post(url, params).then(res => {
+        if (res.code === 200) {
+          ElMessage({
+            message: '保存成功！',
+            type: 'success'
+          })
+          this.editFlag = false;
+        }
+      })
+    },
+    updatePwd: function () {
+      if (this.pwd.newPwd === undefined || this.pwd.newPwd.length < 6 || this.pwd.newPwd.length > 12) {
+        ElMessage.error('请输入大于6位且小于12位的密码');
+        return false;
+      }
+      let params = this.pwd;
+
+      let url = 'user/changePwd/' + params.oldPwd + "/" + params.newPwd;
+      axiosInstance.get(url, params).then(res => {
+        if (res.code === 200) {
+          ElMessage({
+            message: '保存成功！',
+            type: 'success'
+          })
+          this.pwdFlag = false;
+        }
+      });
+    },
     loginOut: function () {
       var userId = localStorage.getItem('userId')
       if (userId) {
@@ -110,24 +253,54 @@ export default {
           }
         })
       }
+    },
+    deletePet:function (animal){
+      let url = "animalInfo/" + animal.id;
+
+      httpUtil.delete(url).then(res => {
+        if (res.code === 200) {
+          ElMessage({
+            message: '删除成功！',
+            type: 'success'
+          })
+          this.getMySendPet();
+          this.getMySearch();
+        }
+      })
+    },
+    getMySendPet: function () {
+      let url = 'animalInfo/getMySendAnimal/' + this.current + '/' + this.pageAnimalSize
+      httpUtil.getData(url).then(res => {
+        console.log(res)
+        if (res.code == 200) {
+          this.sendAnimalArr = res.data.records;
+          this.sendAnimalCount = res.data.pages;
+        }
+      })
+    },
+    getMySearchPet:function (){
+      let url = 'animalInfo/getMySearchAnimal/' + this.currentSearch + '/' + this.pageAnimalSearchSize
+      httpUtil.getData(url).then(res => {
+        if (res.code == 200) {
+          this.searchAnimalArr = res.data.records;
+          this.searchAnimalCount = res.data.pages;
+        }
+      })
+    },
+    petInfo: function (obj) {
+
+      let id = obj.id
+      console.log(obj)
+      this.$router.push({
+        path: '/userPet',
+        query: {id: id}
+      })
     }
   },
   mounted() {
-    httpUtil.getData('animalInfo/hotAnimal').then(res => {
-      console.log(res)
-      if (res.code == 200) {
-        for (let i = 0; i < res.data.length; i++) {
-          this.hotAnimalArray.push(res.data[i])
-        }
-      }
-    })
-    httpUtil.getData('animalInfo/hotSearchAnimal').then(res => {
-      if (res.code == 200) {
-        for (let i = 0; i < res.data.length; i++) {
-          this.hotSearchAnimalArray.push(res.data[i])
-        }
-      }
-    })
+    this.getData();
+    this.getMySendPet();
+    this.getMySearchPet();
   }
 }
 </script>

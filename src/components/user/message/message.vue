@@ -20,9 +20,6 @@
       <div v-if="adoptApplyFlag">
         <adoptApply></adoptApply>
       </div>
-      <div v-if="dialogueFlag">
-        <dialogue></dialogue>
-      </div>
     </div>
 
   </div>
@@ -31,12 +28,10 @@
 <script>
 import review from "./operation/review.vue";
 import Collection from "./operation/collection.vue";
-import Dialogue from "@/components/user/message/operation/dialogue.vue";
 import adoptApply from '@/components/user/message/operation/adoptApply.vue'
 
 export default {
   components: {
-    Dialogue,
     Collection,
     review,
     adoptApply
@@ -55,16 +50,11 @@ export default {
         {
           name: '领养申请',
           router: 'adoptApply'
-        },
-        {
-          name: '消息对话',
-          router: 'dialogue'
         }
       ],
       reviewFlag: false,
       collectionFlag: false,
       adoptApplyFlag: false,
-      dialogueFlag: false,
     }
   },
   methods: {
@@ -72,7 +62,6 @@ export default {
       this.reviewFlag = false;
       this.collectionFlag = false;
       this.adoptApplyFlag = false;
-      this.dialogueFlag = false
       switch (item.router) {
         case 'review':
           this.reviewFlag = true;
@@ -82,9 +71,6 @@ export default {
           break
         case 'adoptApply':
           this.adoptApplyFlag = true;
-          break
-        case 'dialogue' :
-          this.dialogueFlag = true;
           break
       }
     }
