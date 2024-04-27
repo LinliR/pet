@@ -26,6 +26,12 @@ const non_find = 404
 axiosInstance.interceptors.response.use(
     response => {
         if (response.status === success) {
+            if (response.data.code==401){
+                router.push({
+                    name: 'user_login'
+                });
+                return Promise.resolve(response.data);
+            }
             return Promise.resolve(response.data);
         } else {
             return Promise.reject(response);
@@ -38,9 +44,6 @@ axiosInstance.interceptors.response.use(
 
         switch (error.response.status) {
             case non_login:
-                router.push({
-                    name: 'user_login'
-                });
                 break
             case non_find:
                 break
