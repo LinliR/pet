@@ -29,7 +29,7 @@
 
         <el-form-item>
             <el-form-item label="悬赏价格">
-                <el-input v-model="formData.reward"/>
+                <el-input type="number" v-model="formData.reward"/>
             </el-form-item>
         </el-form-item>
 
